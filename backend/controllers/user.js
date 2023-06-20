@@ -1,7 +1,9 @@
 //@desc Register new User
 //@route POST /api/user/register
 //@access PUBLIC
-const signUp = (req, res) => {
+const signUp = async (req, res) => {
+  const { name, email, password } = req.body;
+
   res.json({});
 };
 
