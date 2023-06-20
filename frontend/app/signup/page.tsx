@@ -21,7 +21,7 @@ const login = () => {
   // console.log(password);
   // console.log(confirmPassword);
 
-  const handleClick = (event) => {
+  const handleClick = (event:any) => {
     event.preventDefault();
 
     try {
