@@ -8,7 +8,9 @@ const PORT = process.env.PORT || 5000;
 
 app.use('/api/user', userRouter);
 
-const db = require('./models/index');
+
+const db = require('./db/index');
+
 db.sequelize
   .sync()
   .then(() => {
