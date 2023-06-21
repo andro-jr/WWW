@@ -22,7 +22,7 @@ const db = require('./db/index');
 //user.hasMany(packageorder) do it later
 
 db.sequelize
-  .sync({ force: true })
+  .sync({})
   .then(() => {
     console.log('Synced db.');
   })
