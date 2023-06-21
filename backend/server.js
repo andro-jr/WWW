@@ -24,17 +24,9 @@ db.sequelize
     console.log('Failed to sync db: ' + err.message);
   });
 
-db.sequelize
-  .sync()
-  .then(result => {
-    console.log(result);
-  }).catch(err => {
-    console.log(err)
-  })
 
 
 app.listen(PORT, () => {
   console.log(`Server is running in PORT: ${PORT}`);
 });
-
 

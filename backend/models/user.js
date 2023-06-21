@@ -22,8 +22,4 @@ const User = db.sequelize.define("user", {
   updatedAt: Sequelize.DATE,
 });
 
-
-
-
-
 module.exports = User;
