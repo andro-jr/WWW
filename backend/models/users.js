@@ -4,22 +4,25 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER(100),
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     name: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING(100),
       allowNull: false,
-      unique: true
-
+      unique: true,
     },
     password: {
       type: DataTypes.STRING(100),
       allowNull: false,
     },
   });
+
+  Users.prototype.testMethod = function () {
+    console.log('This is an instance method log');
+  };
   return Users;
 };
