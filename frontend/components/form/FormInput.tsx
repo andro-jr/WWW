@@ -7,9 +7,10 @@ type Props = {
   type: string;
   label: string;
   name: string;
+  onChange: any;
 };
 
-const FormInput = ({ placeholder, type, label, name }: Props) => {
+const FormInput = ({ placeholder, type, label, name, onChange }: Props) => {
   return (
     <div className='relative mb-5'>
       <input
@@ -18,6 +19,7 @@ const FormInput = ({ placeholder, type, label, name }: Props) => {
         type={type || 'text'}
         name={name}
         id={name}
+        onChange={onChange}
       />
       <label
         htmlFor={name}

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CustomButton } from '@/components';
@@ -7,55 +7,43 @@ import { useRouter } from 'next/navigation';
 import { start } from 'repl';
 import FormInput from '@/components/form/FormInput';
 
+const validateUserInfo = (userInfo: any) => {
+  const { fullName, email, password } = userInfo;
+  const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  if (!fullName.trim()) return { ok: false, error: 'Name is missing' };
+  if (!email.trim()) return { ok: false, error: 'Email is missing' };
+  if (!isValidEmail.test(email))
+    return { ok: false, error: 'Email is invalid' };
+  if (!password.trim()) return { ok: false, error: 'Password is missing' };
+  if (password.length < 4)
+    return { ok: false, error: 'Password must be atlest 4 characters' };
+
+  return { ok: true };
+};
+
 const login = () => {
   const router = useRouter();
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [checked, setChecked] = useState(false);
 
-  // console.log(firstName);
-  // console.log(lastName);
-  // console.log(email);
-  // console.log(password);
-  // console.log(confirmPassword);
+  const [inputData, setInputData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+  });
 
-  const handleClick = (event: any) => {
-    event.preventDefault();
+  const handleChange = (e: any) => {
+    const { value, name } = e.target;
+    setInputData({ ...inputData, [name]: value });
+  };
 
-    try {
-      if (
-        firstName === '' ||
-        lastName === '' ||
-        email === '' ||
-        password === '' ||
-        confirmPassword === '' ||
-        checked === false
-      ) {
-        alert('please fill in all the details');
-      } else if (
-        firstName.trim().length > 0 &&
-        lastName.trim().length > 0 &&
-        email.trim().includes('@', 0) &&
-        password === confirmPassword &&
-        checked === true
-      ) {
-        const adminPayload = {
-          firstName,
-          lastName,
-          email,
-          password,
-        };
-        console.log(adminPayload);
-        router.push('/');
-      } else {
-        alert('Please fill in all the details correctly');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    const { ok, error } = validateUserInfo(inputData);
+    console.log(inputData);
+    console.log(ok, error);
+
+    if (!ok) return;
   };
 
   return (
@@ -67,7 +55,7 @@ const login = () => {
             Travel Nepal with us .
           </h1>
           <div>
-            <p className='text-white mt-5 drop-shadow-sm'>
+            <p className='text-white mt-5 drop-shadow-sm tracking-wider'>
               Embark on unforgettable adventures, from exotic destinations to
               hidden gems, with our comprehensive travel guide. Experience the
               joy of exploring, one journey at a time
@@ -80,24 +68,27 @@ const login = () => {
             Sign Up
           </h1>
 
-          <form action='#' className='w-full'>
+          <form action='#' className='w-full' onSubmit={handleSubmit}>
             <FormInput
               name='fullName'
               label='Full Name'
               placeholder='Full Name'
               type='text'
+              onChange={handleChange}
             />
             <FormInput
               name='email'
               label='Email'
               placeholder='Email'
               type='email'
+              onChange={handleChange}
             />
             <FormInput
               name='password'
               label='Password'
               placeholder='Password'
               type='password'
+              onChange={handleChange}
             />
 
             <div className='mt-7'>
@@ -105,8 +96,7 @@ const login = () => {
                 title='Sign Up'
                 backgroundStyles='w-full bg-primary py-3 rounded-xl'
                 textStyles='text-center text-white text-uppercase text-sm tracking-widest'
-                btnType='button'
-                handleClick={handleClick}
+                btnType='submit'
               />
             </div>
           </form>
