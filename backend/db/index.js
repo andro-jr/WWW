@@ -21,6 +21,10 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.users = require('../models/users')(sequelize, DataTypes);
+db.emailVerificationToken = require('../models/emailVerificationToken')(
+  sequelize,
+  DataTypes
+);
 
 db.sequelize
   .sync()
