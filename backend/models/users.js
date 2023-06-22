@@ -42,8 +42,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Users.prototype.testMethod = function () {
-    console.log('This is an instance method log');
+  Users.prototype.comparePassword = async function (password) {
+    const result = await bcrypt.compare(password, this.password);
+    return result;
   };
 
   return Users;

@@ -1,5 +1,6 @@
 const db = require('../db/index');
-const User = db.users;
+const Users = db.users;
+const jwt = require('jsonwebtoken');
 
 //@desc Register new User
 //@route POST /api/user/register
@@ -7,12 +8,12 @@ const User = db.users;
 const signUp = async (req, res) => {
   const { name, email, password } = req.body;
 
-  const user = await User.findOne({ where: { email } });
+  const user = await Users.findOne({ where: { email } });
   if (user) {
     return res.json({ error: 'Email already exists!' });
   }
 
-  const createdUser = await User.create({
+  const createdUser = await Users.create({
     name,
     email,
     password,
@@ -24,10 +25,17 @@ const signUp = async (req, res) => {
 const signIn = async (req, res) => {
   const { email, password } = req.body;
   const user = await Users.findOne({ where: { email } });
-  user.testMethod();
   if (!user) return res.json({ error: 'Invalid Email or Password' });
 
-  res.json({ user });
+  const passMatched = await user.comparePassword(password);
+
+  if (!passMatched) return res.json({ error: 'Invalid Pass' });
+
+  const jwtToken = jwt.sign({ euserID: user.id }, process.env.JWT_SECRET);
+
+  const { id, name } = user;
+
+  res.json({ user: { id, name, email, token: jwtToken } });
 };
 
 module.exports = {

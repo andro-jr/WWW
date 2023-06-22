@@ -20,7 +20,15 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-
 db.users = require('../models/users')(sequelize, DataTypes);
+
+db.sequelize
+  .sync()
+  .then(() => {
+    console.log('Synced db.');
+  })
+  .catch((err) => {
+    console.log('Failed to sync db: ' + err.message);
+  });
 
 module.exports = db;
