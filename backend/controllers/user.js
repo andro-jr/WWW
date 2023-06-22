@@ -1,6 +1,8 @@
 const db = require('../db/index');
 const Users = db.users;
 const jwt = require('jsonwebtoken');
+const PasswordResetToken = require('../models/passwordResetToken')
+const { sendError } = require('../utils/helper');
 
 //@desc Register new User
 //@route POST /api/user/register
@@ -22,6 +24,10 @@ const signUp = async (req, res) => {
   res.json(createdUser);
 };
 
+//generating OTP because prabin is forcing me to do it
+
+
+
 const signIn = async (req, res) => {
   const { email, password } = req.body;
   const user = await Users.findOne({ where: { email } });
@@ -38,7 +44,11 @@ const signIn = async (req, res) => {
   res.json({ user: { id, name, email, token: jwtToken } });
 };
 
+
+
 module.exports = {
   signUp,
   signIn,
+
 };
+
