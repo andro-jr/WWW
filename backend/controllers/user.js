@@ -2,15 +2,11 @@ const db = require('../db/index');
 const Users = db.users;
 const EmailVerificationToken = db.emailVerificationToken;
 const jwt = require('jsonwebtoken');
-
-const PasswordResetToken = require('../models/passwordResetToken')
-const { sendError } = require('../utils/helper');
-
-const {
-  sendError,
-  generateOTP,
-  generateMailTransporter,
-} = require('../utils/helper');
+const PasswordResetToken = db.passwordResetToken;
+const crypto = require('crypto');
+const bcrypt = require('bcrypt');
+const { sendError, generateOTP, generateMailTransporter } = require('../utils/mail');
+const { generateRandomByte } = require('../utils/helper')
 
 
 //@desc Register new User
@@ -140,9 +136,57 @@ const verifyEmail = async (req, res) => {
 };
 
 
+// @desc    forget password
+// @route   POST /api/users/forget-password
+// @access  Private
+
+const forgetPassword = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) return sendError(res, "email is missing!");
+
+  const user = await Users.findOne({
+    where: { email }
+  })
+  if (!user) return sendError(res, "User not found!", 404);
+
+  const alreadyHasToken = await PasswordResetToken.findOne({ where: { userId: user.id } });
+  if (alreadyHasToken) return sendError(res, "Only after one hour you can request for another token!");
+
+  const token = await generateRandomByte();
+  const hashedToken = await bcrypt.hash(token, 10);
+
+  const newPasswordResetToken = await PasswordResetToken.create({
+    token: hashedToken,
+    userId: user.id,
+  });
+  await newPasswordResetToken.save();
+
+  const resetPasswordUrl = `http://localhost:3000/reset-password?token=${token}&id=${user.id}`;
+
+
+  let transport = generateMailTransporter();
+
+  transport.sendMail({
+    form: 'security@ourapp.com',
+    to: user.email,
+    subject: 'Reset Password Link',
+    html: `
+    <p>Click here to reset password </p>
+    <a href='${resetPasswordUrl}'> Change Password </a>
+    `,
+  });
+  res.json({ message: "Link sent to your email!" });
+};
+
+
+
+
 module.exports = {
   signUp,
   signIn,
+  verifyEmail,
+  forgetPassword
 
 };
 
