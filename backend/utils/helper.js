@@ -1,28 +1,20 @@
-const nodemailer = require('nodemailer');
+const crypto = require('crypto')
 
 exports.sendError = (res, error, statusCode = 401) => {
   res.status(statusCode).json({ error });
 };
 
-exports.generateOTP = (otp_length = 6) => {
-  let otp = '';
-  for (let i = 1; i <= otp_length; i++) {
-    let randomVal = Math.round(Math.random() * 9);
-    otp += randomVal;
-  }
-  return otp;
+exports.generateRandomByte = () => {
+  return new Promise((resolve, reject) => {
+    crypto.randomBytes(30, (err, buff) => {
+      if (err) reject(err);
+      const buffString = buff.toString("hex");
+
+      resolve(buffString);
+    });
+  });
 };
 
 exports.handleNotFound = (req, res) => {
-  this.sendError(res, 'Not Found', 404);
-};
-
-exports.generateMailTransporter = () =>
-  nodemailer.createTransport({
-    host: 'sandbox.smtp.mailtrap.io',
-    port: 2525,
-    auth: {
-      user: process.env.MAILTRAP_USER,
-      pass: process.env.MAILTRAP_PASS,
-    },
-  });
+  this.sendError(res, 'not found', 404)
+}

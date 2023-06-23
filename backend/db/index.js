@@ -26,6 +26,13 @@ db.emailVerificationToken = require('../models/emailVerificationToken')(
   DataTypes
 );
 
+db.passwordResetToken = require('../models/passwordResetToken.js')(
+  sequelize,
+  DataTypes
+);
+
+
+
 db.sequelize
   .sync()
   .then(() => {
