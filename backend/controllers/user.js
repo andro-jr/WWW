@@ -78,14 +78,10 @@ const signIn = async (req, res) => {
 const verifyEmail = async (req, res) => {
   const { userId, otp } = req.body;
 
-  console.log(userId);
-
   const user = await Users.findByPk(userId);
   if (!user) return sendError(res, 'User not Found', 404);
 
   if (user.isVerified) return sendError(res, 'User already Verified');
-
-  console.log(user.isVerified);
 
   const token = await EmailVerificationToken.findOne({
     where: { userId },
@@ -131,8 +127,55 @@ const verifyEmail = async (req, res) => {
   res.json({ user: { id, name, email, token: jwtToken } });
 };
 
+//@desc Resend Email Verification Token
+//@route POST /api/user/resend-emailverification-token
+//@access PUBLIC
+const resendEmailVerificationToken = async (req, res) => {
+  const { userId } = req.body;
+  console.log(userId);
+  console.log(' working');
+
+  const user = await Users.findByPk(userId);
+  if (!user) return sendError(res, 'User not Found', 404);
+
+  if (user.isVerified) return sendError(res, 'User already Verified');
+
+  const verificationToken = await EmailVerificationToken.findOne({
+    where: { userId },
+  });
+
+  const newOtp = generateOTP();
+
+  if (verificationToken) {
+    verificationToken.token = newOtp;
+    const result = await verificationToken.save();
+    if (!result) return sendError(res, 'Failed');
+  } else {
+    const newEmailVerificationToken = await EmailVerificationToken.create({
+      userId: user.id,
+      token: newOtp,
+    });
+
+    if (!newEmailVerificationToken) return sendError(res, 'Failed');
+  }
+
+  let transporter = generateMailTransporter();
+
+  transporter.sendMail({
+    from: 'verification@www.com',
+    to: user.email,
+    subject: 'Email Verification',
+    html: `<p>Your Verification OTP </p>
+        <h1> ${newOtp} </h1>
+    `,
+  });
+
+  res.json({ message: 'New Otp has been sent to your email' });
+};
+
 module.exports = {
   signUp,
   signIn,
   verifyEmail,
+  resendEmailVerificationToken,
 };
