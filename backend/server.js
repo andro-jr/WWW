@@ -1,4 +1,7 @@
 const express = require('express');
+const db = require('./db/index');
+const { handleNotFound } = require('./utils/helper');
+const bodyParser = require('body-parser');
 
 const app = express();
 require('dotenv').config();
@@ -6,22 +9,21 @@ const userRouter = require('./routes/user');
 
 const PORT = process.env.PORT || 5000;
 
+// Api bata ako data lai json format ma lana ko lagi middeware
+app.use(express.json());
+app.use(bodyParser.json());
+
 app.use('/api/user', userRouter);
 
+app.use('/*', handleNotFound);
 
-const db = require('./db/index');
+app.use((err, req, res, next) => {
+  console.log('Error:', err);
+  res.status(500).json({ error: err.message || err });
+});
 
-db.sequelize
-  .sync()
-  .then(() => {
-    console.log('Synced db.');
-  })
-  .catch((err) => {
-    console.log('Failed to sync db: ' + err.message);
-  });
+//user.hasMany(packageorder) do it later
 
 app.listen(PORT, () => {
   console.log(`Server is running in PORT: ${PORT}`);
 });
-
-

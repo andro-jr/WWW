@@ -17,6 +17,7 @@ export interface FormInputProps {
   type?: string;
   label?: string;
   name?: string;
+  onChange?: any;
 }
 
 export interface SearchBarProps {

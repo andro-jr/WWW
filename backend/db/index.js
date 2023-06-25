@@ -1,6 +1,6 @@
 const dbConfig = require('../config/db.config.js');
 
-const Sequelize = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
@@ -20,6 +20,26 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// db.tutorials = require('./tutorial.model.js')(sequelize, Sequelize);
+db.users = require('../models/users')(sequelize, DataTypes);
+db.emailVerificationToken = require('../models/emailVerificationToken')(
+  sequelize,
+  DataTypes
+);
+
+db.passwordResetToken = require('../models/passwordResetToken.js')(
+  sequelize,
+  DataTypes
+);
+
+
+
+db.sequelize
+  .sync()
+  .then(() => {
+    console.log('Synced db.');
+  })
+  .catch((err) => {
+    console.log('Failed to sync db: ' + err.message);
+  });
 
 module.exports = db;
