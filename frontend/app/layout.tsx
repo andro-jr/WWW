@@ -13,9 +13,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,500&display=swap"
+          rel="stylesheet"
+        ></link>
+      </head>
       <body>
         {/* <Navbar /> */}
-        {children}</body>
+        {children}
+      </body>
     </html>
   );
 }
