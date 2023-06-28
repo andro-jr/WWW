@@ -138,8 +138,6 @@ const verifyEmail = async (req, res) => {
 //@access PUBLIC
 const resendEmailVerificationToken = async (req, res) => {
   const { userId } = req.body;
-  console.log(userId);
-  console.log(' working');
 
   const user = await Users.findByPk(userId);
   if (!user) return sendError(res, 'User not Found', 404);
@@ -196,20 +194,15 @@ const forgetPassword = async (req, res) => {
   const alreadyHasToken = await PasswordResetToken.findOne({
     where: { userId: user.id },
   });
-  if (alreadyHasToken)
-    return sendError(
-      res,
-      'Only after one hour you can request for another token!'
-    );
+
 
   const token = await generateRandomByte();
-  const hashedToken = await bcrypt.hash(token, 10);
+  console.log(token)
 
   const newPasswordResetToken = await PasswordResetToken.create({
-    token: hashedToken,
+    token: token,
     userId: user.id,
   });
-  await newPasswordResetToken.save();
 
   const resetPasswordUrl = `http://localhost:3000/reset-password?token=${token}&id=${user.id}`;
 
@@ -224,8 +217,10 @@ const forgetPassword = async (req, res) => {
     <a href='${resetPasswordUrl}'> Change Password </a>
     `,
   });
-  res.json({ message: 'Link sent to your email!' });
+  res.json({ token, message: 'Link sent to your email!' });
 };
+
+
 
 module.exports = {
   signUp,
@@ -233,5 +228,5 @@ module.exports = {
   verifyEmail,
   resendEmailVerificationToken,
   forgetPassword,
-  // isValidPassResetToken,
+  //isValidPassResetToken,
 };

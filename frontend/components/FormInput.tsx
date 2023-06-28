@@ -2,15 +2,10 @@ import React from 'react';
 import { FaUser } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
-type Props = {
-  placeholder: string;
-  type: string;
-  label: string;
-  name: string;
-  onChange: any;
-};
+import { FormInputProps } from '@/types';
 
-const FormInput = ({ placeholder, type, label, name, onChange }: Props) => {
+
+const FormInput = ({ placeholder, type, label, name }: FormInputProps) => {
   return (
     <div className='relative mb-5'>
       <input
@@ -19,7 +14,6 @@ const FormInput = ({ placeholder, type, label, name, onChange }: Props) => {
         type={type || 'text'}
         name={name}
         id={name}
-        onChange={onChange}
       />
       <label
         htmlFor={name}

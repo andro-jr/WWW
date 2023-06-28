@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { CustomButton } from '@/components';
 import { useRouter } from 'next/navigation';
 import { start } from 'repl';
-import FormInput from '@/components/form/FormInput';
+import FormInput from '@/components/FormInput';
 
 const validateUserInfo = (userInfo: any) => {
   const { fullName, email, password } = userInfo;
@@ -101,7 +101,7 @@ const login = () => {
             </div>
           </form>
           <p className='text-center w-full mt-3 text-black-60'>
-            Already have an account? <strong>Sign In</strong>
+            Already have an account? <Link href= "/login"><strong>Sign In</strong></Link>
           </p>
         </div>
       </div>

@@ -28,6 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
+    "build/types/**/*.ts",
     "context/NotificationProvider.tsx"
   ],
   "exclude": ["node_modules"]
