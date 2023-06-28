@@ -1,16 +1,15 @@
-const bcrypt = require('bcrypt');
-
+const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
   const PasswordResetToken = sequelize.define(
-    ' PasswordResetToken',
+    'PasswordResetToken',
     {
       token: {
         type: DataTypes.STRING(100),
         allowNull: false,
       },
       userId: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.INTEGER(100),
         allowNull: false,
       },
     },
@@ -32,12 +31,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  PasswordResetToken.prototype.compareOTP = async function (otp) {
-    const result = await bcrypt.compare(otp, this.token);
+  PasswordResetToken.prototype.compareToken = async function (token) {
+    const result = await bcrypt.compare(token, this.token);
     return result;
   };
 
   return PasswordResetToken;
 };
-
-
