@@ -19,7 +19,7 @@ exports.handleNotFound = (req, res) => {
 
 exports.generateMailTransporter = () =>
   nodemailer.createTransport({
-    host: 'sandbox.smtp.mailtrap.io',
+    host: 'sandbox.smpt.mailtrap.io',
     port: 2525,
     auth: {
       user: process.env.MAILTRAP_USER,

@@ -38,6 +38,7 @@ const signUp = async (req, res) => {
 
   // res.json({ createdUser });
   let transporter = generateMailTransporter();
+  transporter.verify().then(console.log).catch(console.error);
 
   transporter.sendMail({
     from: 'verification@www.com',
