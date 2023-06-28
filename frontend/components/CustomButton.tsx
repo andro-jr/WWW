@@ -8,10 +8,11 @@ const CustomButton = ({
   textStyles,
   handleClick,
   btnType,
+  classes,
 }: CustomButtonProps) => {
   return (
     <button
-      className={`${backgroundStyles}`}
+      className={`${backgroundStyles} ${classes}`}
       onClick={handleClick}
       type={btnType || "button"}
     >
