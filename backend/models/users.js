@@ -51,5 +51,7 @@ module.exports = (sequelize, DataTypes) => {
     return result;
   };
 
+
+
   return Users;
 };
