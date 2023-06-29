@@ -220,6 +220,46 @@ const forgetPassword = async (req, res) => {
   res.json({ token, message: 'Link sent to your email!' });
 };
 
+const sendResetPasswordTokenStatus = (req, res) => {
+  res.json({ valid: true });
+};
+
+const resetPassword = async (req, res) => {
+  const { newPassword, userId } = req.body;
+
+  const user = await Users.findByPk(userId);
+
+  const matched = await user.comparePassword(newPassword);
+  if (matched)
+    return sendError(
+      res,
+      "The new password must be different from the prev one!"
+    );
+
+  user.password = newPassword;
+  await user.save();
+
+  await PasswordResetToken.destroy({
+    where: { userId },
+  });
+
+  let transport = generateMailTransporter();
+
+  transport.sendMail({
+    form: 'security@ourapp.com',
+    to: user.email,
+    subject: 'password reset successfully',
+    html: `
+    <h1> password reset successfully </h1>
+<p> Now you can use new password </p>
+    `,
+  });
+  res.json({ message: ' YAAY!! Password Reset Sucessful! Go ahead and use your new PW' });
+
+
+
+};
+
 
 
 module.exports = {
@@ -228,5 +268,7 @@ module.exports = {
   verifyEmail,
   resendEmailVerificationToken,
   forgetPassword,
-  //isValidPassResetToken,
+  resetPassword, sendResetPasswordTokenStatus
+
 };
+

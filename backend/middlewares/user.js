@@ -9,30 +9,19 @@ exports.isValidPassResetToken = async (req, res, next) => {
   if (!token.trim() || !DataTypes.STRING(userId))
     return sendError(res, 'Invalid request!');
 
+  const resetToken = await passwordResetToken.findOne({
+    where: { userId: userId },
+  });
 
+  if (!resetToken)
+    return sendError(res, ' access, invalid request!');
 
-  try {
-    const resetToken = await passwordResetToken.findOne({
-      where: { userId: userId },
-    });
+  const matched = await resetToken.compareToken(token);
 
-    console.log('resetToken', resetToken)
+  if (!matched)
+    return sendError(res, 'Sorry, invalid request!');
 
+  req.resetToken = token;
+  next();
 
-    if (!resetToken)
-      return sendError(res, ' access, invalid request!');
-
-    const matched = await resetToken.compareToken(token);
-
-    console.log('matched', matched)
-
-    if (!matched)
-      return sendError(res, 'Sorry, invalid request!');
-
-    req.resetToken = resetToken;
-    next();
-  } catch (error) {
-    console.error(error);
-    return sendError(res, 'Internal server error');
-  }
 };
