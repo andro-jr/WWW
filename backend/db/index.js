@@ -25,16 +25,14 @@ db.emailVerificationToken = require('../models/emailVerificationToken')(
   sequelize,
   DataTypes
 );
-
 db.passwordResetToken = require('../models/passwordResetToken.js')(
   sequelize,
   DataTypes
 );
-
-
+db.packages = require('../models/packages.js')(sequelize, DataTypes);
 
 db.sequelize
-  .sync()
+  .sync({ force: true })
   .then(() => {
     console.log('Synced db.');
   })
