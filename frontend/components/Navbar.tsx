@@ -16,21 +16,21 @@ const Navbar = () => {
         <div className="links">
           <ul className="hidden absolute lg:relative gap-10 lg:flex">
             <Link href="/packages">
-              <li className="links font-lato">Packages</li>
+              <li className="links font-nunito text-black hover:text-black-60 transition-all duration-300">Packages</li>
             </Link>
             <Link href="/blogs">
-              <li className="links">Blog</li>
+              <li className="links  text-black hover:text-black-60 transition-all duration-300">Blog</li>
             </Link>
             <Link href="/about">
-              <li className="links">About Us</li>
+              <li className="links  text-black hover:text-black-60 transition-all duration-300">About Us</li>
             </Link>
             <Link href="/contact">
-              <li className="links">Contact</li>
+              <li className="links  text-black hover:text-black-60 transition-all duration-300">Contact</li>
             </Link>
 
             <CustomButton
               title="Login"
-              backgroundStyles="bg-blue px-10 py-3 rounded-full"
+              backgroundStyles="bg-blue-dark px-10 py-3 rounded-full"
               textStyles="text-white normal"
               classes="block lg:hidden"
             />
@@ -40,7 +40,7 @@ const Navbar = () => {
       <div className="nav__links flex gap-10 items-center justify-center">
         <CustomButton
           title="Login"
-          backgroundStyles="bg-blue px-10 py-3 rounded-full"
+          backgroundStyles="bg-blue px-10 py-3 rounded-md"
           textStyles="text-white normal"
         />
       </div>

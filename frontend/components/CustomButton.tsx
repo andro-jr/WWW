@@ -12,7 +12,7 @@ const CustomButton = ({
 }: CustomButtonProps) => {
   return (
     <button
-      className={`${backgroundStyles} ${classes}`}
+      className={`${backgroundStyles} ${classes} hovereffect `}
       onClick={handleClick}
       type={btnType || "button"}
     >

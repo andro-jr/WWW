@@ -43,35 +43,35 @@ export default class TripCollection extends Component {
       {
         imageSrc: "/around.jpg",
         title: "Khumai Dadha",
-        description: "Lorem ipsum dolor sit amet, consectur dolori",
+        description: "Travel and Explore Nepal",
         pricingText: "USD 80/Day",
         features: ["Free Wifi", "Free breakfast"],
       },
       {
         imageSrc: "/ground.jpg",
         title: "Poonhill ",
-        description: "Lorem ipsum dolor sit amet, consectur dolori",
+        description: "Unleash the experience and explore the natural beauty.",
         pricingText: "USD 80/Day",
         features: ["Free Wifi", "Free breakfast"],
       },
       {
         imageSrc: "/himalaya.jpg",
         title: "Gosaikunda Lake",
-        description: "Lorem ipsum dolor sit amet, consectur dolori",
+        description: "A magnificent lake to explore",
         pricingText: "USD 80/Day",
         features: ["Free Wifi", "Free breakfast"],
       },
       {
         imageSrc: "/man-standing.jpg",
         title: "Langtang Region",
-        description: "Lorem ipsum dolor sit amet, consectur dolori",
+        description: "Explore the country which lies on the lap of Himalayas ",
         pricingText: "USD 80/Day",
         features: ["Free Wifi", "Free breakfast"],
       },
       {
         imageSrc: "/mt-everest.jpg",
         title: "Everest Base Camp",
-        description: "Lorem ipsum dolor sit amet, consectur dolori",
+        description: "Wonder around the 8th wonder of the world",
         pricingText: "USD 80/Day",
         features: ["Free Wifi", "Free breakfast"],
       },
@@ -91,10 +91,10 @@ export default class TripCollection extends Component {
           fade={true}
           slidesToScroll={1}
         >
-          {hotelCards.map((card, index) => (
+          {hotelCards.slice(0, 6).map((card, index) => (
             <div>
               <div key={index}>
-                <div className="min-h-[60vh] hero-image">
+                <div className="min-h-[70vh] hero-image">
                   <Image
                     alt={hotelCards[index].title}
                     src={hotelCards[index].imageSrc}
@@ -104,9 +104,9 @@ export default class TripCollection extends Component {
                   />
                 </div>
               </div>
-              <div className="z-50 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center ">
-                <h1 className="text-7xl font-black text-white drop-shadow-lg text-center">
-                  <span className="text-6xl">Explore </span> <br />
+              <div className="z-50 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center w-full md:w-auto">
+                <h1 className="text-3xl md:text-7xl font-black text-white drop-shadow-lg text-center">
+                  <span className="text-4xl md:text-6xl">Explore</span> <br />
                   {hotelCards[index].title}
                 </h1>
                 <span className="text-center text-white drop-shadow-md mt-3">
@@ -115,7 +115,7 @@ export default class TripCollection extends Component {
                 <CustomButton
                   btnType="button"
                   title="Explore packages"
-                  backgroundStyles="px-8 py-3 bg-blue rounded-full mt-4"
+                  backgroundStyles="px-10 py-4 bg-blue rounded-md mt-4"
                   textStyles="font-normal text-white font-lato"
                 />
               </div>
@@ -171,14 +171,15 @@ export default class TripCollection extends Component {
         >
           {hotelCards.map((card, index) => (
             <div>
-              <div className="inner__slider-container overflow-hidden dis-flex py-8 px-4 gap-6 border-t-2 border-t-black-80 border-b-black-80">
-                <div className="image-container ">
+              <div className="inner__slider-container overflow-hidden dis-flex py-8 px-4 gap-6">
+                <div className="image-container " key={index}>
                   <Image
                     src={hotelCards[index].imageSrc}
-                    width={200}
-                    height={200}
+                    width={300}
+                    height={300}
                     objectFit="cover"
                     alt={hotelCards[index].title}
+                    style={{maxWidth: '200px'}}
                     className="image-circle border"
                   />
                 </div>
