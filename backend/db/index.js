@@ -29,10 +29,11 @@ db.passwordResetToken = require('../models/passwordResetToken.js')(
   sequelize,
   DataTypes
 );
+
 db.packages = require('../models/packages.js')(sequelize, DataTypes);
 
 db.sequelize
-  .sync({ force: true })
+  .sync({})
   .then(() => {
     console.log('Synced db.');
   })
