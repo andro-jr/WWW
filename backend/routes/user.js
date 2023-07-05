@@ -8,7 +8,8 @@ const {
   resendEmailVerificationToken,
   sendResetPasswordTokenStatus,
   resetPassword,
-  updateUser
+  updateUser,
+  deleteUser
 
 } = require('../controllers/user');
 
@@ -25,6 +26,8 @@ router.post('/forget-password', forgetPassword);
 router.post('/verify-pass-reset-token', isValidPassResetToken, sendResetPasswordTokenStatus)
 router.post('/reset-password', validatePassword, isValidPassResetToken, validate, resetPassword);
 router.put('/update-user', updateUser);
+router.delete('/delete-user', deleteUser);
+
 
 
 module.exports = router;

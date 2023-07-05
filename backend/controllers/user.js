@@ -303,7 +303,20 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
 
-}
+
+  const { userId } = req.body;
+
+
+  const user = await Users.findByPk(userId);
+
+  if (user) {
+    await Users.destroy({ where: { id: userId } });
+
+    res.json({ message: 'User deleted successfully' });
+  } else {
+    res.status(404).json({ error: 'User not found' });
+  }
+};
 
 
 
