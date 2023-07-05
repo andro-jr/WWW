@@ -11,6 +11,7 @@ const {
   generateMailTransporter,
 } = require('../utils/mail');
 const { generateRandomByte } = require('../utils/helper');
+const users = require('../models/users');
 
 //@desc Register new User
 //@route POST /api/user/register
@@ -38,6 +39,7 @@ const signUp = async (req, res) => {
 
   // res.json({ createdUser });
   let transporter = generateMailTransporter();
+
 
   transporter.sendMail({
     from: 'verification@www.com',
@@ -137,8 +139,6 @@ const verifyEmail = async (req, res) => {
 //@access PUBLIC
 const resendEmailVerificationToken = async (req, res) => {
   const { userId } = req.body;
-  console.log(userId);
-  console.log(' working');
 
   const user = await Users.findByPk(userId);
   if (!user) return sendError(res, 'User not Found', 404);
@@ -195,20 +195,15 @@ const forgetPassword = async (req, res) => {
   const alreadyHasToken = await PasswordResetToken.findOne({
     where: { userId: user.id },
   });
-  if (alreadyHasToken)
-    return sendError(
-      res,
-      'Only after one hour you can request for another token!'
-    );
+
 
   const token = await generateRandomByte();
-  const hashedToken = await bcrypt.hash(token, 10);
+  console.log(token)
 
   const newPasswordResetToken = await PasswordResetToken.create({
-    token: hashedToken,
+    token: token,
     userId: user.id,
   });
-  await newPasswordResetToken.save();
 
   const resetPasswordUrl = `http://localhost:3000/reset-password?token=${token}&id=${user.id}`;
 
@@ -223,8 +218,107 @@ const forgetPassword = async (req, res) => {
     <a href='${resetPasswordUrl}'> Change Password </a>
     `,
   });
-  res.json({ message: 'Link sent to your email!' });
+  res.json({ token, message: 'Link sent to your email!' });
 };
+
+const sendResetPasswordTokenStatus = (req, res) => {
+  res.json({ valid: true });
+};
+
+const resetPassword = async (req, res) => {
+  const { newPassword, userId } = req.body;
+
+  const user = await Users.findByPk(userId);
+
+  const matched = await user.comparePassword(newPassword);
+  if (matched)
+    return sendError(
+      res,
+      "The new password must be different from the prev one!"
+    );
+
+  user.password = newPassword;
+  await user.save();
+
+  await PasswordResetToken.destroy({
+    where: { userId },
+  });
+
+  let transport = generateMailTransporter();
+
+  transport.sendMail({
+    form: 'security@ourapp.com',
+    to: user.email,
+    subject: 'password reset successfully',
+    html: `
+    <h1> password reset successfully </h1>
+<p> Now you can use new password </p>
+    `,
+  });
+  res.json({ message: ' YAAY!! Password Reset Sucessful! Go ahead and use your new PW' });
+
+
+
+};
+
+// @desc   Update User
+//@route   PUT /api/users/update-users
+//@access  PRIVATE
+
+const updateUser = async (req, res) => {
+  const { userId, name, email, password } = req.body;
+
+
+  try {
+    const user = await Users.findByPk(userId);
+
+    if (user) {
+      user.name = name || user.name;
+      user.email = email || user.email;
+
+      if (password) {
+        user.password = password;
+      }
+
+      const updatedUser = await user.save();
+
+      res.json({
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+      });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+
+// @desc   Delete User
+// @route   DELETE /api/users/delete-user
+// @access  PRIVATE
+
+const deleteUser = async (req, res) => {
+
+
+  const { userId } = req.body;
+
+
+  const user = await Users.findByPk(userId);
+
+  if (user) {
+    await Users.destroy({ where: { id: userId } });
+
+    res.json({ message: 'User deleted successfully' });
+  } else {
+    res.status(404).json({ error: 'User not found' });
+  }
+};
+
+
 
 module.exports = {
   signUp,
@@ -232,5 +326,8 @@ module.exports = {
   verifyEmail,
   resendEmailVerificationToken,
   forgetPassword,
-  // isValidPassResetToken,
+  resetPassword, sendResetPasswordTokenStatus,
+  updateUser,
+  deleteUser
 };
+
