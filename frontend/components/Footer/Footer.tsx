@@ -60,14 +60,14 @@ const Footer = () => {
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta
             </p>
             <ul className="flex flex-col gap-2">
-              <Link href="/email:https://gmail.com">
+              <Link href="mailto:abc@example.com">
                 <li className="footer__details text-black-gray hover:text-blue">
                   <FaEnvelope className="text-xl" />
                   <p>email@example.com</p>
                 </li>
               </Link>
 
-              <Link href="/">
+              <Link href="phone:9876543210">
                 <li className="footer__details text-black-gray hover:text-blue">
                   <FaPhone className="text-xl" />
                   <p>+977 9876543210</p>
@@ -127,27 +127,57 @@ const Footer = () => {
         <div className="col-1">
           <h3 className="text-lg font-bold my-4">Socials</h3>
           <div className="social__icons flex gap-4 ">
-            <div className="icon bg-blue">
-              <Link href="https://www.facebook.com">
+            <Link href="https://www.facebook.com">
+              <div className="icon bg-blue">
                 <FaFacebookF className="text-white text-lg" />
-              </Link>
-            </div>
-            <div className="icon bg-blue-malibu">
-              <Link href="https://www.twitter.com">
+              </div>
+            </Link>
+            <Link href="https://www.twitter.com">
+              <div className="icon bg-blue-malibu">
                 <FaTwitter className="text-white text-lg " />
-              </Link>
-            </div>
-            <div className="icon bg-red-pink">
-              <Link href="https://www.instagram.com">
+              </div>
+            </Link>
+            <Link href="https://www.instagram.com">
+              <div className="icon bg-red-pink">
                 <FaInstagram className="text-white text-lg " />
-              </Link>
-            </div>
-            <div className="icon bg-red">
-              <Link href="https://www.youtube.com">
+              </div>
+            </Link>
+            <Link href="https://www.youtube.com">
+              <div className="icon bg-red">
                 <FaYoutube className="text-white text-lg" />
-              </Link>
-            </div>
+              </div>
+            </Link>
           </div>
+        </div>
+      </div>
+
+      <div className="copyright max-w-[1500px] mx-auto px-8 md:px-20 mt-12 ">
+        <div className="info__links border-b-2 border-black-25 pb-4">
+          <ul className="flex flex-col md:flex-row gap-4 text-sm font-semibold ">
+            <li className="text-black-gray hover:text-blue">
+              <Link href="/">Terms and conditions</Link>
+            </li>
+            <li className="text-black-gray hover:text-blue">
+              <Link href="/">Privacy Policy</Link>
+            </li>
+            <li className="text-black-gray hover:text-blue">
+              <Link href="/">Cookies Policy</Link>
+            </li>
+            <li className="text-black-gray hover:text-blue">
+              <Link href="/">Copyright notification </Link>
+            </li>
+            <li className="text-black-gray hover:text-blue">
+              <Link href="/">Cookies Settings</Link>
+            </li>
+          </ul>
+        </div>
+        <div className="copyright__text flex flex-col md:flex-row gap-4 mt-3 items-center justify-start">
+          <h3 className="text-xl font-bold text-black-gray hover:text-blue transition-all duration-300">
+            <Link href="/">Travel .</Link>
+          </h3>
+          <p className="text-sm text-black-gray text-center">
+            Copyright &copy; 2010-2023 Travel. All rights reserved.
+          </p>
         </div>
       </div>
     </div>

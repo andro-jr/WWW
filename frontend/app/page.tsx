@@ -1,11 +1,11 @@
 // 'use client'
 import Image from "next/image";
 
-import Hero from "@/components/Hero";
+import Hero from "@/components/Hero/Hero";
 
 import { Navbar, Card, Service, DestinationOpt } from "@/components";
 import { Recommended, Insights, Newsletter, Footer } from "@/components";
-import DestinationList from "@/components/DestinationList";
+import DestinationList from "@/components/DestinationList/DestinationList";
 
 export default function Home() {
   return (

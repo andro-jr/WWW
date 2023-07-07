@@ -181,6 +181,18 @@ input:-webkit-autofill:active {
   background-color: var(--offwhite);
 }
 
+#navbar.fixed{
+  /* background-color: #0583d2; */
+}
+
+
+.navbar.fixed{
+  position: fixed;
+  background-color: var(--offwhite);
+  z-index: 100;
+  transition: all 0.4s ease-in-out;
+}
+
 .title {
   font-family: var(--nunito);
   font-weight: 900;

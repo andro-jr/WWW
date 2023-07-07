@@ -15,6 +15,7 @@ const Recommended = () => {
       features: ["Free Wifi", "Free breakfast"],
       duration: "7 Days",
       rating: 5,
+      featured: true,
     },
     {
       imageSrc: "/around.jpg",
@@ -24,6 +25,7 @@ const Recommended = () => {
       features: ["Free Wifi", "Free breakfast"],
       duration: "9 Days",
       rating: 4,
+      featured: true,
     },
     {
       imageSrc: "/ground.jpg",
@@ -31,6 +33,7 @@ const Recommended = () => {
       description: "Unleash the experience and explore the natural beauty.",
       pricingText: "USD 80/Day",
       features: ["Free Wifi", "Free breakfast"],
+      featured: false,
     },
     {
       imageSrc: "/himalaya.jpg",
@@ -40,6 +43,7 @@ const Recommended = () => {
       features: ["Free Wifi", "Free breakfast"],
       duration: "12 Days",
       rating: 3,
+      featured: true,
     },
     {
       imageSrc: "/man-standing.jpg",
@@ -49,6 +53,7 @@ const Recommended = () => {
       features: ["Free Wifi", "Free breakfast"],
       duration: "9 Days",
       rating: 5,
+      featured: true,
     },
     {
       imageSrc: "/mt-everest.jpg",
@@ -58,6 +63,7 @@ const Recommended = () => {
       features: ["Free Wifi", "Free breakfast"],
       duration: "9 Days",
       rating: 4,
+      featured: true,
     },
     {
       imageSrc: "/walk.jpg",
@@ -68,6 +74,7 @@ const Recommended = () => {
       features: ["Free Wifi", "Free breakfast"],
       duration: "9 Days",
       rating: 4,
+      featured: true,
     },
     {
       imageSrc: "/hims.jpg",
@@ -78,6 +85,7 @@ const Recommended = () => {
       features: ["Free Wifi", "Free breakfast"],
       duration: "9 Days",
       rating: 4,
+      featured: false,
     },
   ];
 
@@ -100,7 +108,7 @@ const Recommended = () => {
 
       <Card>
         {recommendation &&
-          recommendation.slice(0, 8).map((recom, index) => (
+          recommendation.slice(0, 8).map((recom, index) => recom.featured === true ? (
             <div className="dest__card-outer flex flex-col shadow-sm md:shadow-none rounded-lg">
               <div
                 className="dest__card-inner relative overflow-hidden rounded-t-lg md:rounded-lg"
@@ -203,7 +211,7 @@ const Recommended = () => {
                 </div>
               </div>
             </div>
-          ))}
+          ): "")}
       </Card>
     </div>
   );
