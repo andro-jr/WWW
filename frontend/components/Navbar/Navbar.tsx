@@ -18,7 +18,9 @@ const Navbar = () => {
   //   console.log(scrollY);
   // });
 
-  window.addEventListener("scroll", setFixed);
+  useEffect(() => {
+    window.addEventListener("scroll", setFixed);
+  }, []);
 
   return (
     <div
@@ -32,7 +34,9 @@ const Navbar = () => {
       <div className="left flex items-center gap-12">
         <div className="logo-img">
           {/* <h3 className="title text-3xl font-black">Travel .</h3> */}
-          <h3 className="title">Travel .</h3>
+          <Link href="/">
+            <h3 className="title">Travel .</h3>
+          </Link>
         </div>
         <div className="links">
           <ul className="hidden absolute lg:relative gap-10 lg:flex">
