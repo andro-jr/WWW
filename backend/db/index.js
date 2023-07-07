@@ -29,6 +29,7 @@ db.passwordResetToken = require('../models/passwordResetToken.js')(
   sequelize,
   DataTypes
 );
+
 db.packages = require('../models/packages.js')(sequelize, DataTypes);
 
 db.sequelize

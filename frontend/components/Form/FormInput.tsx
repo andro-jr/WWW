@@ -4,20 +4,27 @@ import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { FormInputProps } from '@/types';
 
-
-const FormInput = ({ placeholder, type, label, name }: FormInputProps) => {
+const FormInput = ({
+  placeholder,
+  type,
+  label,
+  name,
+  value,
+  ...rest
+}: FormInputProps) => {
   return (
     <div className='relative mb-5'>
       <input
-        className='w-full p-3 pl-10 rounded-xl border-2 border-black-25 outline-none placeholder:text-sm placeholder:tracking-wider placeholder:text-black-25 focus:border-primary peer transition tracking-wider text-sm'
+        className='w-full p-3 pl-10 rounded-xl border-2 border-black-25 outline-none placeholder:text-sm placeholder:tracking-wider placeholder:text-black-25 focus:border-blue peer transition tracking-wider text-sm'
         placeholder={placeholder}
         type={type || 'text'}
         name={name}
         id={name}
+        {...rest}
       />
       <label
         htmlFor={name}
-        className='absolute top-1/2 left-3 -translate-y-1/2 text-black-80 peer-focus:text-primary transition'
+        className='absolute top-1/2 left-3 -translate-y-1/2 text-black-80 peer-focus:text-blue transition'
       >
         {name === 'fullName' ? (
           <FaUser />

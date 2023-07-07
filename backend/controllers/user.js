@@ -11,6 +11,7 @@ const {
   generateMailTransporter,
 } = require('../utils/mail');
 const { generateRandomByte } = require('../utils/helper');
+const users = require('../models/users');
 
 //@desc Register new User
 //@route POST /api/user/register
@@ -256,6 +257,57 @@ const resetPassword = async (req, res) => {
   });
 };
 
+// @desc   Update User
+//@route   PUT /api/users/update-users
+//@access  PRIVATE
+
+const updateUser = async (req, res) => {
+  const { userId, name, email, password } = req.body;
+
+  try {
+    const user = await Users.findByPk(userId);
+
+    if (user) {
+      user.name = name || user.name;
+      user.email = email || user.email;
+
+      if (password) {
+        user.password = password;
+      }
+
+      const updatedUser = await user.save();
+
+      res.json({
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+      });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// @desc   Delete User
+// @route   DELETE /api/users/delete-user
+// @access  PRIVATE
+
+const deleteUser = async (req, res) => {
+  const { userId } = req.body;
+
+  const user = await Users.findByPk(userId);
+
+  if (user) {
+    await Users.destroy({ where: { id: userId } });
+
+    res.json({ message: 'User deleted successfully' });
+  } else {
+    res.status(404).json({ error: 'User not found' });
+  }
+};
+
 module.exports = {
   signUp,
   signIn,
@@ -264,4 +316,8 @@ module.exports = {
   forgetPassword,
   resetPassword,
   sendResetPasswordTokenStatus,
+  resetPassword,
+  sendResetPasswordTokenStatus,
+  updateUser,
+  deleteUser,
 };
