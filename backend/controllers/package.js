@@ -10,7 +10,16 @@ const createPackage = async (req, res) => {
     bestSeason,
     maxElevation,
     accomodation,
+    includeInFeatured,
   } = req.body;
+
+  // packages.create({});
 };
+
+// edit
+
+// re.body = package id , {title,
+// package id, DELETE
+// show featured ==> {}
 
 module.exports = { createPackage };

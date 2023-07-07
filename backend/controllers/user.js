@@ -38,7 +38,6 @@ const signUp = async (req, res) => {
 
   // res.json({ createdUser });
   let transporter = generateMailTransporter();
-  transporter.verify().then(console.log).catch(console.error);
 
   transporter.sendMail({
     from: 'verification@www.com',
@@ -61,7 +60,6 @@ const signUp = async (req, res) => {
 //@desc Sign in User
 //@route POST /api/user/sign-in
 //@access PUBLIC
-
 const signIn = async (req, res) => {
   const { email, password } = req.body;
   const user = await Users.findOne({ where: { email } });
@@ -195,9 +193,8 @@ const forgetPassword = async (req, res) => {
     where: { userId: user.id },
   });
 
-
   const token = await generateRandomByte();
-  console.log(token)
+  console.log(token);
 
   const newPasswordResetToken = await PasswordResetToken.create({
     token: token,
@@ -233,7 +230,7 @@ const resetPassword = async (req, res) => {
   if (matched)
     return sendError(
       res,
-      "The new password must be different from the prev one!"
+      'The new password must be different from the prev one!'
     );
 
   user.password = newPassword;
@@ -254,13 +251,10 @@ const resetPassword = async (req, res) => {
 <p> Now you can use new password </p>
     `,
   });
-  res.json({ message: ' YAAY!! Password Reset Sucessful! Go ahead and use your new PW' });
-
-
-
+  res.json({
+    message: ' YAAY!! Password Reset Sucessful! Go ahead and use your new PW',
+  });
 };
-
-
 
 module.exports = {
   signUp,
@@ -268,7 +262,6 @@ module.exports = {
   verifyEmail,
   resendEmailVerificationToken,
   forgetPassword,
-  resetPassword, sendResetPasswordTokenStatus
-
+  resetPassword,
+  sendResetPasswordTokenStatus,
 };
-
