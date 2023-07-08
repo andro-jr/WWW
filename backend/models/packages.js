@@ -10,10 +10,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(100),
       allowNull: false,
     },
+    // featuredImage: {},
     titleDesc: {
       type: DataTypes.STRING(100),
       allowNull: true,
     },
+    // description: {
+    //   type: DataTypes.STRING(5000),
+    //   allowNull: false,
+    // },
     costPerDay: {
       type: DataTypes.INTEGER(50),
       allowNull: true,
