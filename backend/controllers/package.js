@@ -101,4 +101,20 @@ const deletePackage = async (req, res) => {
   res.json({ message: 'Package Deleted Successfully' });
 };
 
-module.exports = { createPackage, updatePackage, deletePackage };
+// @desc Get all Packages
+// @route /api/package/all
+// @access PUBLIC
+const getAllPackages = async (req, res) => {
+  const allPackages = await packages.findAll();
+
+  if (!allPackages) return sendError(res, 'Failed to get packages');
+
+  res.json(allPackages);
+};
+
+module.exports = {
+  createPackage,
+  updatePackage,
+  deletePackage,
+  getAllPackages,
+};
