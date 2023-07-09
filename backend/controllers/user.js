@@ -40,7 +40,6 @@ const signUp = async (req, res) => {
   // res.json({ createdUser });
   let transporter = generateMailTransporter();
 
-
   transporter.sendMail({
     from: 'verification@www.com',
     to: createdUser.email,
@@ -62,7 +61,6 @@ const signUp = async (req, res) => {
 //@desc Sign in User
 //@route POST /api/user/sign-in
 //@access PUBLIC
-
 const signIn = async (req, res) => {
   const { email, password } = req.body;
   const user = await Users.findOne({ where: { email } });
@@ -196,9 +194,8 @@ const forgetPassword = async (req, res) => {
     where: { userId: user.id },
   });
 
-
   const token = await generateRandomByte();
-  console.log(token)
+  console.log(token);
 
   const newPasswordResetToken = await PasswordResetToken.create({
     token: token,
@@ -234,7 +231,7 @@ const resetPassword = async (req, res) => {
   if (matched)
     return sendError(
       res,
-      "The new password must be different from the prev one!"
+      'The new password must be different from the prev one!'
     );
 
   user.password = newPassword;
@@ -255,10 +252,9 @@ const resetPassword = async (req, res) => {
 <p> Now you can use new password </p>
     `,
   });
-  res.json({ message: ' YAAY!! Password Reset Sucessful! Go ahead and use your new PW' });
-
-
-
+  res.json({
+    message: ' YAAY!! Password Reset Sucessful! Go ahead and use your new PW',
+  });
 };
 
 // @desc   Update User
@@ -267,7 +263,6 @@ const resetPassword = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { userId, name, email, password } = req.body;
-
 
   try {
     const user = await Users.findByPk(userId);
@@ -295,17 +290,12 @@ const updateUser = async (req, res) => {
   }
 };
 
-
-
 // @desc   Delete User
 // @route   DELETE /api/users/delete-user
 // @access  PRIVATE
 
 const deleteUser = async (req, res) => {
-
-
   const { userId } = req.body;
-
 
   const user = await Users.findByPk(userId);
 
@@ -318,16 +308,16 @@ const deleteUser = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
   signUp,
   signIn,
   verifyEmail,
   resendEmailVerificationToken,
   forgetPassword,
-  resetPassword, sendResetPasswordTokenStatus,
+  resetPassword,
+  sendResetPasswordTokenStatus,
+  resetPassword,
+  sendResetPasswordTokenStatus,
   updateUser,
-  deleteUser
+  deleteUser,
 };
-

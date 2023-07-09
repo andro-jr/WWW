@@ -33,7 +33,7 @@ db.passwordResetToken = require('../models/passwordResetToken.js')(
 db.packages = require('../models/packages.js')(sequelize, DataTypes);
 
 db.sequelize
-  .sync({})
+  .sync()
   .then(() => {
     console.log('Synced db.');
   })
