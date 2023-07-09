@@ -1,5 +1,6 @@
+"use client";
 import React from "react";
-import { Card } from "@/components";
+import { Card, Rating } from "@/components";
 import Link from "next/link";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
@@ -16,6 +17,7 @@ const Recommended = () => {
       duration: "7 Days",
       rating: 5,
       featured: true,
+      reviewers: 56,
     },
     {
       imageSrc: "/around.jpg",
@@ -108,110 +110,64 @@ const Recommended = () => {
 
       <Card>
         {recommendation &&
-          recommendation.slice(0, 8).map((recom, index) => recom.featured === true ? (
-            <div className="dest__card-outer flex flex-col shadow-sm md:shadow-none rounded-lg">
-              <div
-                className="dest__card-inner relative overflow-hidden rounded-t-lg md:rounded-lg"
-                key={index}
-              >
-                <Link href="/package/1">
-                  <Image
-                    src={recom.imageSrc}
-                    //   width={100}
-                    //   height={100}
-                    fill
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      // minHeight:'500px',
-                      objectFit: "cover",
-                      objectPosition: "center",
-                      borderTopLeftRadius: "5px",
-                      borderTopRightRadius: "5px",
-                    }}
-                    className="transition-all duration-1000 hover:scale-105"
-                    alt={recom.title}
-                  />
-                </Link>
-              </div>
-              <div className="reco__card-info px-4 bg-white-subtle lg:bg-white rounded-sm">
-                <div className="title-desc flex flex-col mt-3">
-                  <Link href="/package/1" className="">
-                    <p className="font-medium">
-                      <small>Duration: {recom.duration}</small>
-                    </p>
-                  </Link>
+          recommendation.slice(0, 8).map((recom, index) =>
+            recom.featured === true ? (
+              <div className="dest__card-outer flex flex-col shadow-sm md:shadow-none rounded-lg">
+                <div
+                  className="dest__card-inner relative overflow-hidden rounded-t-lg md:rounded-lg"
+                  key={index}
+                >
                   <Link href="/package/1">
-                    <p className="reco__card-title z-10 relative font-nunito text-black hover:text-blue transition-all duration-300">
-                      {recom.title}
-                    </p>
+                    <Image
+                      src={recom.imageSrc}
+                      //   width={100}
+                      //   height={100}
+                      fill
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        // minHeight:'500px',
+                        objectFit: "cover",
+                        objectPosition: "center",
+                        borderTopLeftRadius: "5px",
+                        borderTopRightRadius: "5px",
+                      }}
+                      className="transition-all duration-1000 hover:scale-105"
+                      alt={recom.title}
+                    />
                   </Link>
                 </div>
-
-                <div className="pricing-rating flex items-center justify-between min-h-[50px]">
-                  <div className="pricing flex gap-2 mt-3 items-center text-blue">
-                    <strong className="text-2xl font-lato">
-                      <FaMoneyBill />
-                    </strong>
-                    <small className="font-nunito text-md font-bold">
-                      {recom.pricingText}
-                    </small>
+                <div className="reco__card-info px-4 bg-white-subtle lg:bg-white rounded-sm">
+                  <div className="title-desc flex flex-col mt-3">
+                    <Link href="/package/1" className="">
+                      <p className="font-medium">
+                        <small>Duration: {recom.duration}</small>
+                      </p>
+                    </Link>
+                    <Link href="/package/1">
+                      <p className="reco__card-title z-10 relative font-nunito text-black hover:text-blue transition-all duration-300">
+                        {recom.title}
+                      </p>
+                    </Link>
                   </div>
-                  <div className="rating flex gap-0.5">
-                    {recom.rating === 5 ? (
-                      <div className="flex gap-0.5">
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-secondary" />
-                      </div>
-                    ) : recom.rating === 4 ? (
-                      <div className="flex gap-0.5">
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-black-light_gray" />
-                      </div>
-                    ) : recom.rating === 3 ? (
-                      <div className="flex gap-0.5">
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-black-light_gray" />
-                        <FaStar className="text-black-light_gray" />
-                      </div>
-                    ) : recom.rating === 2 ? (
-                      <div className="flex gap-0.5">
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-black-light_gray" />
-                        <FaStar className="text-black-light_gray" />
-                        <FaStar className="text-black-light_gray" />
-                      </div>
-                    ) : recom.rating === 1 ? (
-                      <div className="flex gap-0.5">
-                        <FaStar className="text-secondary" />
-                        <FaStar className="text-black-light_gray" />
-                        <FaStar className="text-black-light_gray" />
-                        <FaStar className="text-black-light_gray" />
-                        <FaStar className="text-black-light_gray" />
-                      </div>
-                    ) : (
-                      <div className="flex gap-0.5">
-                        <FaStar className="text-black-light_gray" />
-                        <FaStar className="text-black-light_gray" />
-                        <FaStar className="text-black-light_gray" />
-                        <FaStar className="text-black-light_gray" />
-                        <FaStar className="text-black-light_gray" />
-                      </div>
-                    )}
+
+                  <div className="pricing-rating flex flex-col justify-between min-h-[50px]">
+                    <Rating stars={recom.rating} reviewers = {recom.reviewers} />
+                    <div className="pricing flex gap-2 items-center text-blue">
+                      <strong className="text-2xl font-lato">
+                        <FaMoneyBill />
+                      </strong>
+                      <small className="font-nunito text-md font-bold">
+                        {recom.pricingText}
+                      </small>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ): "")}
+            ) : (
+              ""
+            )
+          )}
       </Card>
     </div>
   );

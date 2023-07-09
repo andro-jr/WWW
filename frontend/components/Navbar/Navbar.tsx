@@ -26,10 +26,13 @@ const Navbar = () => {
     <div
       className={
         fix
-          ? "navbar fixed flex justify-between py-6 items-center font-nunito w-full px-5 lg:px-20 transition-all duration-300 ease-in-out shadow-lg"
-          : " navbar flex justify-between py-5 items-center font-nunito w-auto px-5 lg:px-20 transition-all duration-300 ease-in-out"
+          ? "navbar fixed flex justify-between py-4 items-center font-nunito w-full px-5 lg:px-20 transition-all duration-300 ease-in-out shadow-lg"
+          : " navbar flex justify-between py-5 items-center font-nunito w-full px-5 lg:px-20 transition-all duration-300 ease-in-out"
       }
       id={fix ? "navbar fixed" : "navbar"}
+      style={{
+        transition: 'all 0.5s ease-in-out'
+      }}
     >
       <div className="left flex items-center gap-12">
         <div className="logo-img">

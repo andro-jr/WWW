@@ -46,12 +46,11 @@ const DestinationOpt = () => {
   ];
   return (
     <div
-      className="px-5 lg:px-20 min-h-[100vh] blog"
+      className="px-5 lg:px-20 min-h-[100vh] blog bg-[#f8f8f8] md:bg-[rgba(255,255,255,0)] bg-auto md:bg-cover"
       style={{
         backgroundImage: "url('/blog-bg.png')",
-        backgroundSize: "inherit",
+        // backgroundSize: "inherit",
         backgroundRepeat: "no-repeat",
-        backgroundColor: "#f8f8f8",
 
         // @media (max-width:300px){backgroundImage:'none'}
       }}

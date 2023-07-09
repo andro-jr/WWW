@@ -13,6 +13,7 @@ import DestinationOpt from "./ChooseDestination/DestinationOpt";
 import Newsletter from "./Newsletter/Newsletter";
 import Footer from "./Footer/Footer";
 import Package from "./Packages/Package";
+import Rating from "./Rating";
 
 export {
   Navbar,
@@ -29,5 +30,6 @@ export {
   DestinationOpt,
   Newsletter,
   Footer,
-  Package
+  Package,
+  Rating
 };
