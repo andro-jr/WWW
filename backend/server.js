@@ -7,6 +7,8 @@ const app = express();
 require('dotenv').config();
 const userRouter = require('./routes/user');
 const packageRouter = require('./routes/package');
+const { uploadImage } = require('./middlewares/imageUpload');
+const multer = require('multer');
 
 const PORT = process.env.PORT || 5000;
 
@@ -14,8 +16,14 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(bodyParser.json());
 
+app.use('/media', express.static('media'));
+
 app.use('/api/user', userRouter);
 app.use('/api/package', packageRouter);
+
+app.post('/upload', uploadImage.single('image'), (req, res) => {
+  res.send('Image Uploaded');
+});
 
 app.use('/*', handleNotFound);
 

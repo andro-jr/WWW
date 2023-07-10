@@ -257,7 +257,7 @@ const resetPassword = async (req, res) => {
   });
 };
 
-// @desc   Update User
+//@desc   Update User
 //@route   PUT /api/users/update-users
 //@access  PRIVATE
 
