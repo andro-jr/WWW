@@ -2,11 +2,11 @@
 import React, { Component } from "react";
 import Navbar from "../Navbar/Navbar";
 import FormInput from "../Form/FormInput";
-import SearchBar from "../SearchBar";
+import SearchBar from "../Shared/SearchBar";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import Carousel from "../Carousel";
+import Carousel from "../Shared/Carousel";
 import TripCollection  from "./TripCollection";
 
 const Hero = () => {

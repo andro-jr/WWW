@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "../Card";
+import Card from "../Shared/Card";
 import Image from "next/image";
 import Link from "next/link";
 import { FaLongArrowAltRight } from "react-icons/fa";
@@ -83,6 +83,7 @@ const DestinationList = () => {
                     //   width={100}
                     //   height={100}
                     fill
+                    sizes="100%"
                     style={{
                       width: "100%",
                       height: "100%",

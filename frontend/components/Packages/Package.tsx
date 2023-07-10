@@ -1,19 +1,39 @@
-import React from "react";
-import Card from "../Card";
+"use client";
+import React, { useState, useEffect } from "react";
+import Card from "../Shared/Card";
 import Link from "next/link";
 import Image from "next/image";
-import Rating from "../Rating";
+import Rating from "../Shared/Rating";
 import { HiArrowLongRight } from "react-icons/hi2";
 import { FiClock } from "react-icons/fi";
 import { IoPricetagsOutline } from "react-icons/io5";
 import { TiWeatherPartlySunny } from "react-icons/ti";
+import { fetchPackages } from "@/utils";
 
 const Package = () => {
+  const [allPackages, setAllPackages] = useState<(any)[]>([]);
+  console.log(allPackages);
+
+  const getAllPackages = async () => {
+    try {
+      const pack = await fetchPackages();
+      setAllPackages(pack);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllPackages();
+  }, []);
+
+
   const packages = [
     {
       id: "1",
       imageSrc: "/1.jpg",
       title: "Annapurna Circuit",
+      titleDesc: "Lorem ipsum dolor sit amet",
       description:
         "Talk to local people and explore the culture. Talk to local people and explore the culture Talk to local people and explore the culture",
       pricingText: "USD 50/Day",
@@ -207,12 +227,12 @@ const Package = () => {
     },
   ];
 
-  const hasFeatured = packages.filter(
-    (pack) => pack.hasOwnProperty("featured") && pack.featured === true
+  const hasFeatured = allPackages.filter(
+    (pack) => pack.hasOwnProperty("includeInFeatured") && pack.includeInFeatured === true
   );
 
-  const notFeatured = packages.filter(
-    (pack) => pack.hasOwnProperty("featured") && pack.featured === false
+  const notFeatured = allPackages.filter(
+    (pack) => pack.hasOwnProperty("includeInFeatured") && pack.includeInFeatured === false
   );
 
   return (
@@ -257,6 +277,7 @@ const Package = () => {
                           //   width={100}
                           //   height={100}
                           fill
+                          sizes="100%"
                           style={{
                             width: "100%",
                             height: "100%",
@@ -291,8 +312,8 @@ const Package = () => {
                           {pack.title}
                         </p>
                       </Link>
-                      <Rating stars={pack.Rating} reviewers={pack.reviewers} />
-                      <div className="pack__duration flex items-center justify-start gap-3 font-sm">
+                      {/* <Rating stars={pack.rating} reviewers={pack.reviewers} /> */}
+                      <div className="pack__duration flex items-center justify-start gap-3 font-sm mt-4">
                         <FiClock className="text-blue" />
                         <p className="text-sm font-nunito font-bold text-black-60">
                           {pack.duration}
@@ -300,13 +321,13 @@ const Package = () => {
                       </div>
 
                       <div className="pack__price  mt-2">
-                        {pack.pricingText ? (
+                        {pack.costPerDay ? (
                           <div className="flex items-center justify-start gap-3">
                             <strong className="">
                               <IoPricetagsOutline className="text-blue " />
                             </strong>
                             <small className="font-bold font-nunito text-black-60">
-                              {pack.pricingText}
+                              {pack.costPerDay}
                             </small>
                           </div>
                         ) : (
@@ -315,14 +336,14 @@ const Package = () => {
                       </div>
 
                       <div className="best__seasons  mt-2">
-                        {pack.seasons ? (
+                        {pack.bestSeason ? (
                           <div className="flex items-center justify-start gap-3 ">
                             <strong className="text-blue">
                               <TiWeatherPartlySunny />
                             </strong>
 
                             <p className="text-sm font-bold font-nunito text-black-60">
-                              {pack.seasons}
+                              {pack.bestSeason}
                             </p>
                           </div>
                         ) : (
@@ -410,13 +431,13 @@ const Package = () => {
                     </div>
 
                     <div className="pack__price  mt-2">
-                      {pack.pricingText ? (
+                      {pack.costPerDay ? (
                         <div className="flex items-center justify-start gap-3">
                           <strong className="">
                             <IoPricetagsOutline className="text-blue " />
                           </strong>
                           <small className="font-bold font-nunito text-black-60">
-                            {pack.pricingText}
+                          {pack.costPerDay}
                           </small>
                         </div>
                       ) : (
@@ -425,14 +446,14 @@ const Package = () => {
                     </div>
 
                     <div className="best__seasons  mt-2">
-                      {pack.seasons ? (
+                      {pack.bestSeason ? (
                         <div className="flex items-center justify-start gap-3 ">
                           <strong className="text-blue">
                             <TiWeatherPartlySunny />
                           </strong>
 
                           <p className="text-sm font-bold font-nunito text-black-60">
-                            {pack.seasons}
+                          {pack.bestSeason}
                           </p>
                         </div>
                       ) : (

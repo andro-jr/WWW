@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('./db/index');
+const cors = require('cors');
 const { handleNotFound } = require('./utils/helper');
 const bodyParser = require('body-parser');
 
@@ -12,6 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 // Api bata ako data lai json format ma lana ko lagi middeware
 app.use(express.json());
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/api/user', userRouter);

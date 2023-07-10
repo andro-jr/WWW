@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
-import CustomButton from "../CustomButton";
+import CustomButton from "../Shared/CustomButton";
 
 // const TripCollection = () => {
 //   return <div>
@@ -92,8 +92,8 @@ export default class TripCollection extends Component {
           slidesToScroll={1}
         >
           {hotelCards.slice(0, 6).map((card, index) => (
-            <div>
-              <div key={index}>
+            <div key={index}>
+              <div >
                 <div className="min-h-[70vh] hero-image">
                   <Image
                     alt={hotelCards[index].title}
@@ -170,16 +170,15 @@ export default class TripCollection extends Component {
           ]}
         >
           {hotelCards.map((card, index) => (
-            <div>
+            <div key={index}>
               <div className="inner__slider-container overflow-hidden dis-flex py-8 px-4 gap-6">
-                <div className="image-container " key={index}>
+                <div className="image-container " >
                   <Image
                     src={hotelCards[index].imageSrc}
                     width={300}
                     height={300}
-                    objectFit="cover"
                     alt={hotelCards[index].title}
-                    style={{maxWidth: '200px'}}
+                    style={{maxWidth: '200px', objectFit: 'cover'}}
                     className="image-circle border"
                   />
                 </div>

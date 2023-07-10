@@ -1,10 +1,10 @@
 import Navbar from "./Navbar/Navbar";
-import CustomButton from "./CustomButton";
+import CustomButton from "./Shared/CustomButton";
 import Hero from "./Hero/Hero";
-import SearchBar from "./SearchBar";
-import Carousel from "./Carousel";
+import SearchBar from "./Shared/SearchBar";
+import Carousel from "./Shared/Carousel";
 import TripCollection from "./Hero/TripCollection";
-import Card from "./Card";
+import Card from "./Shared/Card";
 import DestinationList from "./DestinationList/DestinationList";
 import Recommended from "./Recommendations/Recommended";
 import Insights from "./Insight/Insights";
@@ -13,7 +13,7 @@ import DestinationOpt from "./ChooseDestination/DestinationOpt";
 import Newsletter from "./Newsletter/Newsletter";
 import Footer from "./Footer/Footer";
 import Package from "./Packages/Package";
-import Rating from "./Rating";
+import Rating from "./Shared/Rating";
 
 export {
   Navbar,

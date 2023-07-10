@@ -8,7 +8,7 @@ import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import CustomButton from "./CustomButton";
 import { CarouselProps } from "@/types";
-import TripCollection from "./Hero/TripCollection";
+import TripCollection from "../Hero/TripCollection";
 
 export default class Carousel extends Component {
   // const Carousel = ({ title, subtitle }: CarouselProps) => {

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import CustomButton from "../CustomButton";
+import CustomButton from "../Shared/CustomButton";
 import Router from "next/router";
 import { useRouter } from "next/navigation";
 import { FaEnvelope } from "react-icons/fa";

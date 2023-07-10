@@ -112,10 +112,9 @@ const Recommended = () => {
         {recommendation &&
           recommendation.slice(0, 8).map((recom, index) =>
             recom.featured === true ? (
-              <div className="dest__card-outer flex flex-col shadow-sm md:shadow-none rounded-lg">
+              <div className="dest__card-outer flex flex-col shadow-sm md:shadow-none rounded-lg" key={index}>
                 <div
                   className="dest__card-inner relative overflow-hidden rounded-t-lg md:rounded-lg"
-                  key={index}
                 >
                   <Link href="/package/1">
                     <Image
@@ -123,6 +122,7 @@ const Recommended = () => {
                       //   width={100}
                       //   height={100}
                       fill
+                      sizes="100%"
                       style={{
                         width: "100%",
                         height: "100%",
@@ -152,7 +152,7 @@ const Recommended = () => {
                   </div>
 
                   <div className="pricing-rating flex flex-col justify-between min-h-[50px]">
-                    <Rating stars={recom.rating} reviewers = {recom.reviewers} />
+                    <Rating stars={recom.rating} reviewers={recom.reviewers} />
                     <div className="pricing flex gap-2 items-center text-blue">
                       <strong className="text-2xl font-lato">
                         <FaMoneyBill />
