@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sendError } = require('../utils/helper');
 const db = require('../db/index');
+const { listenerCount } = require('nodemailer/lib/xoauth2');
 const { passwordResetToken } = db;
 
 exports.isValidPassResetToken = async (req, res, next) => {
@@ -25,3 +26,4 @@ exports.isValidPassResetToken = async (req, res, next) => {
   next();
 
 };
+
