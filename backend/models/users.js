@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      role: {
+        type: DataTypes.ENUM('user', 'admin'),
+        defaultValue: 'user',
+      },
     },
     {
       hooks: {
@@ -50,8 +54,6 @@ module.exports = (sequelize, DataTypes) => {
     const result = await bcrypt.compare(password, this.password);
     return result;
   };
-
-
 
   return Users;
 };

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { CustomButton } from '@/components';
 import { useRouter } from 'next/navigation';
 import { start } from 'repl';
-import FormInput from '@/components/FormInput';
+import FormInput from '@/components/Form/FormInput';
 
 const validateUserInfo = (userInfo: any) => {
   const { fullName, email, password } = userInfo;
@@ -31,8 +31,11 @@ const login = () => {
     password: '',
   });
 
+  console.log(inputData);
+
   const handleChange = (e: any) => {
     const { value, name } = e.target;
+    console.log(name);
     setInputData({ ...inputData, [name]: value });
   };
 
@@ -74,6 +77,7 @@ const login = () => {
               label='Full Name'
               placeholder='Full Name'
               type='text'
+              value={inputData}
               onChange={handleChange}
             />
             <FormInput
@@ -81,6 +85,7 @@ const login = () => {
               label='Email'
               placeholder='Email'
               type='email'
+              value={inputData}
               onChange={handleChange}
             />
             <FormInput
@@ -88,20 +93,24 @@ const login = () => {
               label='Password'
               placeholder='Password'
               type='password'
+              value={inputData}
               onChange={handleChange}
             />
 
             <div className='mt-7'>
               <CustomButton
                 title='Sign Up'
-                backgroundStyles='w-full bg-primary py-3 rounded-xl'
+                backgroundStyles='w-full bg-blue py-3 rounded-xl'
                 textStyles='text-center text-white text-uppercase text-sm tracking-widest'
                 btnType='submit'
               />
             </div>
           </form>
           <p className='text-center w-full mt-3 text-black-60'>
-            Already have an account? <Link href= "/login"><strong>Sign In</strong></Link>
+            Already have an account?{' '}
+            <Link href='/login'>
+              <strong>Sign In</strong>
+            </Link>
           </p>
         </div>
       </div>
