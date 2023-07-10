@@ -20,6 +20,8 @@ const createPackage = async (req, res) => {
     includeInFeatured,
   } = req.body;
 
+  const featuredImg = `http://localhost:8000/media/${req.file.filename}`;
+
   const packageExists = await packages.findOne({ where: { title } });
   if (packageExists) return sendError(res, 'Package with same name Exists');
 
@@ -30,7 +32,7 @@ const createPackage = async (req, res) => {
     days,
     costPerDay,
     recommendation,
-    img,
+    featuredImg,
     bestSeason,
     maxElevation,
     accomodation,
