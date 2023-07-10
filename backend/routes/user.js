@@ -9,7 +9,8 @@ const {
   sendResetPasswordTokenStatus,
   resetPassword,
   updateUser,
-  deleteUser
+  deleteUser,
+  logoutUser
 
 } = require('../controllers/user');
 
@@ -27,6 +28,7 @@ router.post('/verify-pass-reset-token', isValidPassResetToken, sendResetPassword
 router.post('/reset-password', validatePassword, isValidPassResetToken, validate, resetPassword);
 router.put('/update-user', updateUser);
 router.delete('/delete-user', deleteUser);
+router.post('logout-user', logoutUser)
 
 
 
