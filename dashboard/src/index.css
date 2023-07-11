@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.logo {
+  font-weight: 900;
+  font-size: 2rem;
+}
+
+.activeNav {
+  color: #067fd0;
+  position: relative;
+  font-weight: 600;
+}
+.activeNav::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  height: 80%;
+  width: 6px;
+  left: 0;
+  transform: translateY(-50%);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background: #067fd0;
+}

@@ -308,18 +308,12 @@ const deleteUser = async (req, res) => {
   }
 };
 
-<<<<<<< Updated upstream
-=======
 //@desc logout user
 //route POST/api/users/logout
 //@access public
 
-const logoutUser = async (req, res) => {
+const logoutUser = async (req, res) => {};
 
-}
-
-
->>>>>>> Stashed changes
 module.exports = {
   signUp,
   signIn,
@@ -332,8 +326,5 @@ module.exports = {
   sendResetPasswordTokenStatus,
   updateUser,
   deleteUser,
-<<<<<<< Updated upstream
-=======
-  logoutUser
->>>>>>> Stashed changes
+  logoutUser,
 };
