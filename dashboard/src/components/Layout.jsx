@@ -1,15 +1,24 @@
-import Sidebar from "./Sidebar";
-import '../index.css'
+import Sidebar from './Sidebar';
+import '../index.css';
+import { Route, Routes } from 'react-router';
+import Dashboard from './Dashboard';
+import Users from './Users';
+import Packages from './Packages';
+import Navbar from './Navbar';
 
-
-function Layout({ children }) {
+function Layout() {
   return (
-    <div className="bg-green-900 w-screen h-screen flex">
-
+    <div className='bg-white-subtle w-screen h-screen flex'>
       <Sidebar />
-      <div className="bg-white flex-grow mt-1 mr-2 mb-2 rounded-lg p-4"> {children}</div>
+      <div className='flex flex-col w-full'>
+        <Navbar />
+        <Routes>
+          <Route path='/' exact element={<Dashboard />} />
+          <Route path='/users' exact element={<Users />} />
+          <Route path='/packages' exact element={<Packages />} />
+        </Routes>
+      </div>
     </div>
-
   );
 }
 
