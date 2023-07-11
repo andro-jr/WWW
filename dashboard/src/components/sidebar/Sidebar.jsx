@@ -1,20 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import SideBarItem from './SideBarItem';
-import CustomLink from './CustomLink';
+import CustomLink from '../CustomLink';
 
 const Sidebar = () => {
-  const toggleActiveStatus = ({ target }) => {
-    console.log(target);
-  };
-
-  const path = window.location.pathname;
-  console.log(path);
-
-  const activeStatus = 'activeNav';
-
   return (
-    <aside className='bg-white w-1/5'>
+    <aside className='bg-white w-1/5 shadow-sm'>
       <Link to='/' className='flex gap-2 mb-4 mr-4 pl-6 mt-5'>
         <span className='logo mb-6'>Travel .</span>
       </Link>
