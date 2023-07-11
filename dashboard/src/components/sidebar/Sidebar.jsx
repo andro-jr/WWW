@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import SideBarItem from './SideBarItem';
-import CustomLink from '../CustomLink';
+import CustomLink from '../utils/CustomLink';
 
 const Sidebar = () => {
   return (

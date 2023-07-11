@@ -295,7 +295,7 @@ const updateUser = async (req, res) => {
 // @access  PRIVATE
 
 const deleteUser = async (req, res) => {
-  const { userId } = req.body;
+  const { id: userId } = req.params;
 
   const user = await Users.findByPk(userId);
 
@@ -308,11 +308,56 @@ const deleteUser = async (req, res) => {
   }
 };
 
-//@desc logout user
-//route POST/api/users/logout
-//@access public
+//@desc get all users
+//@route GET /api/users/all
+//@access PUBLIC
 
-const logoutUser = async (req, res) => {};
+const getAllUsers = async (req, res) => {
+  const allUsers = await Users.findAll();
+
+  if (!allUsers) return sendError(res, 'Failed to get Users');
+
+  res.json(allUsers);
+};
+
+const getSingleUser = async (req, res) => {
+  const { id } = req.params;
+
+  console.log(req.params);
+
+  console.log(id, ' id');
+
+  const user = await Users.findByPk(id);
+
+  if (!user) return sendError(res, 'User not found', 404);
+
+  return res.json(user);
+};
+
+const adminUserAdd = async (req, res) => {
+  const { name, email, password, role } = req.body;
+
+  const user = await Users.findOne({ where: { email } });
+  if (user) {
+    return res.json({ error: 'Email already exists!' });
+  }
+
+  const createdUser = await Users.create({
+    name,
+    email,
+    password,
+    role,
+    isVerified: true,
+  });
+
+  res.json({
+    user: {
+      name: createdUser.name,
+      email: createdUser.email,
+    },
+    message: 'User Created Successfully',
+  });
+};
 
 module.exports = {
   signUp,
@@ -326,5 +371,7 @@ module.exports = {
   sendResetPasswordTokenStatus,
   updateUser,
   deleteUser,
-  logoutUser,
+  getAllUsers,
+  getSingleUser,
+  adminUserAdd,
 };
