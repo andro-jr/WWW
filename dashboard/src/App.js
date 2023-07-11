@@ -1,7 +1,8 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Box } from '@mui/material';
 
-import { Navbar, Sidebar, Layout } from './components'
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Layout from './components/Layout';
+
 
 const App = () => {
   return (
