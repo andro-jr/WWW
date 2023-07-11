@@ -262,7 +262,7 @@ const resetPassword = async (req, res) => {
 //@access  PRIVATE
 
 const updateUser = async (req, res) => {
-  const { userId, name, email, password } = req.body;
+  const { userId, name, email, password, role } = req.body;
 
   try {
     const user = await Users.findByPk(userId);
@@ -270,6 +270,7 @@ const updateUser = async (req, res) => {
     if (user) {
       user.name = name || user.name;
       user.email = email || user.email;
+      user.role = role || user.role;
 
       if (password) {
         user.password = password;

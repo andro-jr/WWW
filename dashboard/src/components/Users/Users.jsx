@@ -93,7 +93,13 @@ const Users = () => {
                 );
               })
             ) : (
-              <p className='text-center p-5 w-full'>No users to display</p>
+              <tr>
+                <td colSpan={6}>
+                  <div className='m-auto text-center p-5 text-black-60'>
+                    No users to display
+                  </div>
+                </td>
+              </tr>
             )}
           </tbody>
         </table>
