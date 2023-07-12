@@ -10,7 +10,7 @@ import { fetchPackages } from "@/utils";
 
 const Recommended = () => {
   const [allPackages, setAllPackages] = useState([]);
-  // console.log(allPackages);
+  console.log(allPackages);
 
   const getAllPackages = async () => {
     try {
