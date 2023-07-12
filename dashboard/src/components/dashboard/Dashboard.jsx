@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Widget from '../Widget';
+import Widget from './Widget';
 import CustomLink from '../utils/CustomLink';
 import ContentsBox from '../ContentsBox';
 import DashHead from '../utils/DashHead';
+import Users from '../Users/Users';
 
 const Dashboard = () => {
+
   return (
     <ContentsBox>
       <DashHead>Dashboard</DashHead>

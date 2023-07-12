@@ -5,7 +5,7 @@ import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalance
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 
-const Widget = ({ type }) => {
+const Widget = ({ type, count }) => {
   const dataMap = {
     user: {
       title: 'USERS',
@@ -73,7 +73,7 @@ const Widget = ({ type }) => {
       <div className="left">
         <span className="title font-bold text-gray-500">{title}</span>
         <span className="counter text-2xl font-bold">
-          {isMoney && '$'} {amount}
+          {isMoney && '$'} {count} {/* Display the count */}
         </span>
         <span className="link text-sm border-b border-gray-300">{link}</span>
       </div>
