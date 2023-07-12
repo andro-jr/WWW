@@ -1,14 +1,19 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { DarkModeContextProvider } from './components/Navbar/Theme';
+import Theme from './components/Navbar/Theme';
 import Layout from './components/Layout';
 
 const App = () => {
   return (
-    <>
+    <DarkModeContextProvider>
       <BrowserRouter>
-        <Layout />
+        <Theme.DarkModeContextProvider>
+          <Layout />
+        </Theme.DarkModeContextProvider>
       </BrowserRouter>
-    </>
+    </DarkModeContextProvider>
   );
 };
+
 export default App;
