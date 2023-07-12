@@ -1,10 +1,20 @@
-import React, { createContext, useReducer, useEffect } from 'react';
+import React, { createContext, useReducer } from "react";
+
 
 const darkModeReducer = (state, action) => {
   switch (action.type) {
-    case 'TOGGLE': {
+    case "LIGHT": {
       return {
-        ...state,
+        darkMode: false,
+      };
+    }
+    case "DARK": {
+      return {
+        darkMode: true,
+      };
+    }
+    case "TOGGLE": {
+      return {
         darkMode: !state.darkMode,
       };
     }
@@ -13,37 +23,27 @@ const darkModeReducer = (state, action) => {
   }
 };
 
+
 const initialDarkModeState = {
   darkMode: false,
 };
+
 
 export const DarkModeContext = createContext(initialDarkModeState);
 
 export const DarkModeContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(darkModeReducer, initialDarkModeState);
 
-  useEffect(() => {
-    const rootClassList = document.documentElement.classList;
-    if (state.darkMode) {
-      rootClassList.add('dark');
-    } else {
-      rootClassList.remove('dark');
-    }
-  }, [state.darkMode]);
-
-  const toggleDarkMode = () => {
-    dispatch({ type: 'TOGGLE' });
-  };
-
   return (
-    <DarkModeContext.Provider value={{ darkMode: state.darkMode, toggleDarkMode }}>
-      {children}
+    <DarkModeContext.Provider value={{ darkMode: state.darkMode, dispatch }}>
+      <div className={`admin-panel ${state.darkMode ? "dark" : ""}`}>
+        {children}
+      </div>
     </DarkModeContext.Provider>
   );
 };
 
-const Theme = {
+
+export const Theme = {
   DarkModeContextProvider,
 };
-
-export default Theme;
