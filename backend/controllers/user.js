@@ -262,7 +262,7 @@ const resetPassword = async (req, res) => {
 //@access  PRIVATE
 
 const updateUser = async (req, res) => {
-  const { userId, name, email, password } = req.body;
+  const { userId, name, email, password, role } = req.body;
 
   try {
     const user = await Users.findByPk(userId);
@@ -270,6 +270,7 @@ const updateUser = async (req, res) => {
     if (user) {
       user.name = name || user.name;
       user.email = email || user.email;
+      user.role = role || user.role;
 
       if (password) {
         user.password = password;
@@ -295,7 +296,7 @@ const updateUser = async (req, res) => {
 // @access  PRIVATE
 
 const deleteUser = async (req, res) => {
-  const { userId } = req.body;
+  const { id: userId } = req.params;
 
   const user = await Users.findByPk(userId);
 
@@ -306,6 +307,57 @@ const deleteUser = async (req, res) => {
   } else {
     res.status(404).json({ error: 'User not found' });
   }
+};
+
+//@desc get all users
+//@route GET /api/users/all
+//@access PUBLIC
+
+const getAllUsers = async (req, res) => {
+  const allUsers = await Users.findAll();
+
+  if (!allUsers) return sendError(res, 'Failed to get Users');
+
+  res.json(allUsers);
+};
+
+const getSingleUser = async (req, res) => {
+  const { id } = req.params;
+
+  console.log(req.params);
+
+  console.log(id, ' id');
+
+  const user = await Users.findByPk(id);
+
+  if (!user) return sendError(res, 'User not found', 404);
+
+  return res.json(user);
+};
+
+const adminUserAdd = async (req, res) => {
+  const { name, email, password, role } = req.body;
+
+  const user = await Users.findOne({ where: { email } });
+  if (user) {
+    return res.json({ error: 'Email already exists!' });
+  }
+
+  const createdUser = await Users.create({
+    name,
+    email,
+    password,
+    role,
+    isVerified: true,
+  });
+
+  res.json({
+    user: {
+      name: createdUser.name,
+      email: createdUser.email,
+    },
+    message: 'User Created Successfully',
+  });
 };
 
 module.exports = {
@@ -320,4 +372,7 @@ module.exports = {
   sendResetPasswordTokenStatus,
   updateUser,
   deleteUser,
+  getAllUsers,
+  getSingleUser,
+  adminUserAdd,
 };

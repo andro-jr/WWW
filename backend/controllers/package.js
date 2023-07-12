@@ -63,6 +63,7 @@ const updatePackage = async (req, res) => {
     maxElevation,
     accomodation,
     includeInFeatured,
+    price,
   } = req.body;
 
   console.log(id, title, titleDesc, bestSeason);
