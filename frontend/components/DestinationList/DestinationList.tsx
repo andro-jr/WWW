@@ -1,51 +1,28 @@
-import React from "react";
+'use client';
+import React, {useState, useEffect} from "react";
 import Card from "../Shared/Card";
 import Image from "next/image";
 import Link from "next/link";
 import { FaLongArrowAltRight } from "react-icons/fa";
+import { fetchPackages } from "@/utils";
 
 const DestinationList = () => {
-  const destination = [
-    {
-      imageSrc: "/1.jpg",
-      title: "Annapurna Circuit",
-      description:
-        "Talk to local people and explore the culture. Talk to local people and explore the culture Talk to local people and explore the culture",
-      pricingText: "USD 50/Day",
-      features: ["Free Wifi", "Free breakfast"],
-    },
-    {
-      imageSrc: "/2.jpg",
-      title: "Khumai Dadha",
-      description:
-        "Wonder around the 8th wonder of the world Wonder around the 8th wonder of the world Wonder around the 8th wonder of the world",
-      pricingText: "USD 80/Day",
-      features: ["Free Wifi", "Free breakfast"],
-    },
-    {
-      imageSrc: "/3.jpg",
-      title: "Poonhill ",
-      // description: "Travel and Explore Nepal with beautiful culture",
-      description: "Travel and Explore Nepal",
-      pricingText: "USD 80/Day",
-      features: ["Free Wifi", "Free breakfast"],
-    },
-    {
-      imageSrc: "/4.jpg",
-      title: "Everest Base Camp",
-      description:
-        "Unleash the experience and explore the natural beauty, Unleash the experience and explore the natural beauty, Unleash the experience and explore the natural beauty",
-      pricingText: "USD 80/Day",
-      features: ["Free Wifi", "Free breakfast"],
-    },
-    {
-      imageSrc: "/2.jpg",
-      title: "Everest Base Camp",
-      description: "A magnificent lake to explore",
-      pricingText: "USD 80/Day",
-      features: ["Free Wifi", "Free breakfast"],
-    },
-  ];
+  const [allPackages, setAllPackages] = useState<any[]>([]);
+  // console.log(allPackages);
+
+  const getAllPackages = async () => {
+    try {
+      const pack = await fetchPackages();
+      console.log(pack);
+      setAllPackages(pack);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllPackages();
+  }, []);
 
   return (
     <div className="destinations__list mt-16 px-5 lg:px-20 flex flex-col">
@@ -70,16 +47,16 @@ const DestinationList = () => {
       </div>
 
       <Card>
-        {destination &&
-          destination.slice(0, 4).map((dest, index) => (
+        {allPackages &&
+          allPackages.slice(0, 4).map((dest, index) => (
             <div className="dest__card-outer flex flex-col shadow-sm md:shadow-none rounded-lg">
               <div
                 className="dest__card-inner relative  overflow-hidden rounded-t-lg md:rounded-lg"
                 key={index}
               >
-                <Link href="/package/1">
+                <Link href={`/packages/${dest.id}`}>
                   <Image
-                    src={dest.imageSrc}
+                    src={dest.featuredImg}
                     //   width={100}
                     //   height={100}
                     fill
@@ -99,14 +76,14 @@ const DestinationList = () => {
                 </Link>
               </div>
               <div className="dest__card-info px-4  bg-white-subtle lg:bg-white rounded-sm">
-                <Link href="/package/1">
+                <Link href={`/packages/${dest.id}`}>
                   <p className="dest__card-title z-10 relative  text-black hover:text-blue transition-all duration-400">
                     {dest.title}
                   </p>
                 </Link>
-                <Link href="/package/1" className="">
+                <Link href={`/packages/${dest.id}`} className="">
                   <p className="line-clamp-2 text-black hover:text-black-gray transition-all duration-300">
-                    {dest.description}
+                    {dest.titleDesc}
                   </p>
                 </Link>
               </div>
