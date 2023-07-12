@@ -12,12 +12,13 @@ const createPackage = async (req, res) => {
     description,
     days,
     costPerDay,
-    recommendation,
+    recommended,
     img,
     bestSeason,
     maxElevation,
     accomodation,
     includeInFeatured,
+    price
   } = req.body;
 
   const featuredImg = `http://localhost:8000/media/${req.file.filename}`;
@@ -31,12 +32,13 @@ const createPackage = async (req, res) => {
     description,
     days,
     costPerDay,
-    recommendation,
+    recommended,
     featuredImg,
     bestSeason,
     maxElevation,
     accomodation,
     includeInFeatured,
+    price
   });
 
   res.json({
@@ -55,7 +57,7 @@ const updatePackage = async (req, res) => {
     description,
     days,
     costPerDay,
-    recommendation,
+    recommended,
     img,
     bestSeason,
     maxElevation,
@@ -73,7 +75,7 @@ const updatePackage = async (req, res) => {
   package.description = description || package.description;
   package.days = days || package.days;
   package.costPerDay = costPerDay || package.costPerDay;
-  package.recommendation = recommendation || package.recommendation;
+  package.recommended = recommended || package.recommended;
   package.bestSeason = bestSeason || package.bestSeason;
   package.maxElevation = maxElevation || package.maxElevation;
   package.accomodation = accomodation || package.accomodation;

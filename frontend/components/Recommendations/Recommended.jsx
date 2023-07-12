@@ -1,124 +1,63 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
+
 import { Card, Rating } from "@/components";
 import Link from "next/link";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import { FaMoneyBill } from "react-icons/fa";
+import { fetchPackages } from "@/utils";
 
 const Recommended = () => {
-  const recommendation = [
-    {
-      imageSrc: "/flags.jpg",
-      title: "Annapurna Circuit",
-      description: "Talk to local people and explore the culture",
-      pricingText: "USD 50/Day",
-      features: ["Free Wifi", "Free breakfast"],
-      duration: "7 Days",
-      rating: 5,
-      featured: true,
-      reviewers: 56,
-    },
-    {
-      imageSrc: "/around.jpg",
-      title: "Khumai Dadha",
-      description: "Travel and Explore Nepal",
-      pricingText: "USD 80/Day",
-      features: ["Free Wifi", "Free breakfast"],
-      duration: "9 Days",
-      rating: 4,
-      featured: true,
-    },
-    {
-      imageSrc: "/ground.jpg",
-      title: "Poonhill ",
-      description: "Unleash the experience and explore the natural beauty.",
-      pricingText: "USD 80/Day",
-      features: ["Free Wifi", "Free breakfast"],
-      featured: false,
-    },
-    {
-      imageSrc: "/himalaya.jpg",
-      title: "Gosaikunda Lake",
-      description: "A magnificent lake to explore",
-      pricingText: "USD 80/Day",
-      features: ["Free Wifi", "Free breakfast"],
-      duration: "12 Days",
-      rating: 3,
-      featured: true,
-    },
-    {
-      imageSrc: "/man-standing.jpg",
-      title: "Langtang Region",
-      description: "Explore the country which lies on the lap of Himalayas ",
-      pricingText: "USD 80/Day",
-      features: ["Free Wifi", "Free breakfast"],
-      duration: "9 Days",
-      rating: 5,
-      featured: true,
-    },
-    {
-      imageSrc: "/mt-everest.jpg",
-      title: "Everest Base Camp",
-      description: "Wonder around the 8th wonder of the world",
-      pricingText: "USD 80/Day",
-      features: ["Free Wifi", "Free breakfast"],
-      duration: "9 Days",
-      rating: 4,
-      featured: true,
-    },
-    {
-      imageSrc: "/walk.jpg",
-      title: "Manaslu Himal Trek",
-      description:
-        "Unleash the experience and explore the natural beauty, Unleash the experience and explore the natural beauty, Unleash the experience and explore the natural beauty",
-      pricingText: "USD 80/Day",
-      features: ["Free Wifi", "Free breakfast"],
-      duration: "9 Days",
-      rating: 4,
-      featured: true,
-    },
-    {
-      imageSrc: "/hims.jpg",
-      title: "Machapuchhre Base Camp",
-      description:
-        "Unleash the experience and explore the natural beauty, Unleash the experience and explore the natural beauty, Unleash the experience and explore the natural beauty",
-      pricingText: "USD 80/Day",
-      features: ["Free Wifi", "Free breakfast"],
-      duration: "9 Days",
-      rating: 4,
-      featured: false,
-    },
-  ];
+  const [allPackages, setAllPackages] = useState([]);
+  // console.log(allPackages);
+
+  const getAllPackages = async () => {
+    try {
+      const pack = await fetchPackages();
+      // console.log(pack);
+      setAllPackages(pack);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllPackages();
+  }, []);
+
+  const recommended = allPackages.filter(
+    (pack) => pack.hasOwnProperty("recommended") && pack.recommended === true
+  );
+
+
+  console.log(recommended);
 
   return (
     <div className="mt-24 px-5 lg:px-20">
-      <div className="destinations__list-title flex flex-col md:flex-row text-center md:text-left items-center justify-center md:justify-between">
-        <h5 className=" font-nunito regular-text">
-          <strong className="semi__big-title  uppercase">
-            Our{" "}
-            <span className="text-blue font-extrabold">Recommendations </span>
-          </strong>
-        </h5>
-        {/* <p className="regular-text mt-2 md:mt-0 relative">
-          Need more Info? Contact us at:{" "}
-          <strong className="text-blue-light_dark">
-            <a href="tel: +977 9841368753">+977 9876543210</a>
-          </strong>
-        </p> */}
-      </div>
+      {recommended.length !== 0 ? (
+        <div>
+          <div className="destinations__list-title flex flex-col md:flex-row text-center md:text-left items-center justify-center md:justify-between">
+            <h5 className=" font-nunito regular-text">
+              <strong className="semi__big-title  uppercase">
+                Our{" "}
+                <span className="text-blue font-extrabold">
+                  Recommendations{" "}
+                </span>
+              </strong>
+            </h5>
+          </div>
 
-      <Card>
-        {recommendation &&
-          recommendation.slice(0, 8).map((recom, index) =>
-            recom.featured === true ? (
-              <div className="dest__card-outer flex flex-col shadow-sm md:shadow-none rounded-lg" key={index}>
-                <div
-                  className="dest__card-inner relative overflow-hidden rounded-t-lg md:rounded-lg"
-                >
-                  <Link href="/package/1">
+          <Card>
+            {recommended.slice(0, 8).map((recom, index) => (
+              <div
+                className="dest__card-outer flex flex-col shadow-sm md:shadow-none rounded-lg"
+                key={index}
+              >
+                <div className="dest__card-inner relative overflow-hidden rounded-t-lg md:rounded-lg">
+                  <Link href={`/packages/${recom.id}`}>
                     <Image
-                      src={recom.imageSrc}
+                      src={recom.featuredImg}
                       //   width={100}
                       //   height={100}
                       fill
@@ -139,12 +78,12 @@ const Recommended = () => {
                 </div>
                 <div className="reco__card-info px-4 bg-white-subtle lg:bg-white rounded-sm">
                   <div className="title-desc flex flex-col mt-3">
-                    <Link href="/package/1" className="">
+                    <Link href={`/packages/${recom.id}`} className="">
                       <p className="font-medium">
-                        <small>Duration: {recom.duration}</small>
+                        <small>Duration: {recom.days}</small>
                       </p>
                     </Link>
-                    <Link href="/package/1">
+                    <Link href={`/packages/${recom.id}`}>
                       <p className="reco__card-title z-10 relative font-nunito text-black hover:text-blue transition-all duration-300">
                         {recom.title}
                       </p>
@@ -152,23 +91,27 @@ const Recommended = () => {
                   </div>
 
                   <div className="pricing-rating flex flex-col justify-between min-h-[50px]">
-                    <Rating stars={recom.rating} reviewers={recom.reviewers} />
+                    {/* <Rating
+                        stars={recom.rating}
+                        reviewers={recom.reviewers}
+                      /> */}
                     <div className="pricing flex gap-2 items-center text-blue">
                       <strong className="text-2xl font-lato">
                         <FaMoneyBill />
                       </strong>
                       <small className="font-nunito text-md font-bold">
-                        {recom.pricingText}
+                        {recom.price}
                       </small>
                     </div>
                   </div>
                 </div>
               </div>
-            ) : (
-              ""
-            )
-          )}
-      </Card>
+            ))}
+          </Card>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

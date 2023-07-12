@@ -1,198 +1,169 @@
 "use client";
-import React, { Component, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
 import CustomButton from "../Shared/CustomButton";
+import { fetchPackages } from "@/utils";
 
-// const TripCollection = () => {
-//   return <div>
+const TripCollection = () => {
+  const [nav1, setNav1] = useState(null);
+  const [nav2, setNav2] = useState(null);
+  let slider1 = useRef(null);
+  let slider2 = useRef(null);
 
-//   </div>;
-// };
+  useEffect(() => {
+    setNav1(slider1.current);
+    setNav2(slider2.current);
+  }, []);
 
-// export default TripCollection;
+  const [allPackages, setAllPackages] = useState<any[]>([]);
+  // console.log(allPackages);
 
-export default class TripCollection extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      nav1: null,
-      nav2: null,
-    };
-  }
+  const getAllPackages = async () => {
+    try {
+      const pack = await fetchPackages();
+      setAllPackages(pack);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  componentDidMount() {
-    this.setState({
-      nav1: this.slider1,
-      nav2: this.slider2,
-    });
-  }
+  useEffect(() => {
+    getAllPackages();
+  }, []);
 
-  render() {
-    const hotelCards = [
-      {
-        imageSrc: "/flags.jpg",
-        title: "Annapurna Circuit",
-        description: "Talk to local people and explore the culture",
-        pricingText: "USD 50/Day",
-        features: ["Free Wifi", "Free breakfast"],
-      },
-      {
-        imageSrc: "/around.jpg",
-        title: "Khumai Dadha",
-        description: "Travel and Explore Nepal",
-        pricingText: "USD 80/Day",
-        features: ["Free Wifi", "Free breakfast"],
-      },
-      {
-        imageSrc: "/ground.jpg",
-        title: "Poonhill ",
-        description: "Unleash the experience and explore the natural beauty.",
-        pricingText: "USD 80/Day",
-        features: ["Free Wifi", "Free breakfast"],
-      },
-      {
-        imageSrc: "/himalaya.jpg",
-        title: "Gosaikunda Lake",
-        description: "A magnificent lake to explore",
-        pricingText: "USD 80/Day",
-        features: ["Free Wifi", "Free breakfast"],
-      },
-      {
-        imageSrc: "/man-standing.jpg",
-        title: "Langtang Region",
-        description: "Explore the country which lies on the lap of Himalayas ",
-        pricingText: "USD 80/Day",
-        features: ["Free Wifi", "Free breakfast"],
-      },
-      {
-        imageSrc: "/mt-everest.jpg",
-        title: "Everest Base Camp",
-        description: "Wonder around the 8th wonder of the world",
-        pricingText: "USD 80/Day",
-        features: ["Free Wifi", "Free breakfast"],
-      },
-    ];
+  const router = useRouter();
 
-    return (
-      <div className="overflow-hidden">
-        <Slider
-          asNavFor={this.state.nav2}
-          ref={(slider) => (this.slider1 = slider)}
-          arrows={false}
-          dots={false}
-          infinite={true}
-          autoplay={true}
-          autoplaySpeed={10000}
-          speed={1000}
-          fade={true}
-          slidesToScroll={1}
-        >
-          {hotelCards.slice(0, 6).map((card, index) => (
+  const handleClick = () => {
+    router.push("/packages");
+  };
+
+  return (
+    <div className="overflow-hidden">
+      <Slider
+        asNavFor={nav2}
+        ref={slider1}
+        arrows={false}
+        dots={false}
+        infinite={true}
+        autoplay={true}
+        autoplaySpeed={10000}
+        speed={1000}
+        fade={true}
+        slidesToScroll={1}
+      >
+        {allPackages &&
+          allPackages.slice(0, 6).map((card, index) => (
             <div key={index}>
-              <div >
+              <div>
                 <div className="min-h-[70vh] hero-image">
                   <Image
-                    alt={hotelCards[index].title}
-                    src={hotelCards[index].imageSrc}
+                    alt={allPackages[index].title}
+                    src={allPackages[index].featuredImg}
                     fill
                     style={{ objectFit: "cover" }}
                     className="-z-10"
+                    priority={true}
                   />
                 </div>
               </div>
               <div className="z-50 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center w-full md:w-auto">
                 <h1 className="text-3xl md:text-7xl font-black text-white drop-shadow-lg text-center">
                   <span className="text-4xl md:text-6xl">Explore</span> <br />
-                  {hotelCards[index].title}
+                  {allPackages[index].title}
                 </h1>
                 <span className="text-center text-white drop-shadow-md mt-3">
-                  {hotelCards[index].description}
+                  {allPackages[index].titleDesc}
                 </span>
                 <CustomButton
                   btnType="button"
                   title="Explore packages"
                   backgroundStyles="px-10 py-4 bg-blue rounded-md mt-4"
                   textStyles="font-normal text-white font-lato"
+                  handleClick={handleClick}
                 />
               </div>
             </div>
           ))}
-        </Slider>
+      </Slider>
 
-        {/* ---------------------- second slider ---------------------- */}
-        <Slider
-          asNavFor={this.state.nav1}
-          ref={(slider) => (this.slider2 = slider)}
-          slidesToShow={3}
-          swipeToSlide={true}
-          focusOnSelect={true}
-          centerMode={true}
-          centerPadding="100px"
-          arrows={false}
-          dots={false}
-          infinite={true}
-          autoplay={true}
-          autoplaySpeed={10000}
-          speed={1000}
-          slidesToScroll={1}
-          responsive={[
-            {
-              breakpoint: 1025,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 1,
-                infinite: true,
-                dots: false,
-                centerPadding: "60px",
-              },
+      {/* ---------------------- second slider ---------------------- */}
+      <Slider
+        asNavFor={nav1}
+        ref={slider2}
+        slidesToShow={3}
+        swipeToSlide={true}
+        focusOnSelect={true}
+        centerMode={true}
+        centerPadding="100px"
+        arrows={false}
+        dots={false}
+        infinite={true}
+        autoplay={true}
+        autoplaySpeed={10000}
+        speed={1000}
+        slidesToScroll={1}
+        responsive={[
+          {
+            breakpoint: 1025,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1,
+              infinite: true,
+              dots: false,
+              centerPadding: "60px",
             },
-            {
-              breakpoint: 768,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 1,
-                centerPadding: "50px",
-                // initialSlide: 2,
-              },
+          },
+          {
+            breakpoint: 768,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1,
+              centerPadding: "50px",
+              // initialSlide: 2,
             },
-            {
-              breakpoint: 480,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                centerPadding: "30px",
-              },
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              centerPadding: "30px",
             },
-          ]}
-        >
-          {hotelCards.map((card, index) => (
+          },
+        ]}
+      >
+        {allPackages &&
+          allPackages.map((card, index) => (
             <div key={index}>
               <div className="inner__slider-container overflow-hidden dis-flex py-8 px-4 gap-6">
-                <div className="image-container " >
+                <div className="image-container ">
                   <Image
-                    src={hotelCards[index].imageSrc}
+                    src={allPackages[index].featuredImg}
                     width={300}
                     height={300}
-                    alt={hotelCards[index].title}
-                    style={{maxWidth: '200px', objectFit: 'cover'}}
+                    alt={allPackages[index].title}
+                    style={{ maxWidth: "200px", objectFit: "cover" }}
                     className="image-circle border"
+                    priority={true}
                   />
                 </div>
                 <div className="trip__details">
                   <span className="font-bold font-nunito text-xl">
-                    {hotelCards[index].title}
+                    {allPackages[index].title}
                   </span>
-                  <p>{hotelCards[index].description}</p>
+                  <p className="line-clamp-2">{allPackages[index].titleDesc}</p>
                 </div>
               </div>
             </div>
           ))}
-        </Slider>
-      </div>
-    );
-  }
-}
+      </Slider>
+    </div>
+  );
+};
+
+export default TripCollection;

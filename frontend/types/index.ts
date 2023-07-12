@@ -2,6 +2,12 @@ import { Carousel } from '@/components';
 import { type } from 'os';
 import { MouseEventHandler } from 'react';
 
+
+export interface PackageParamsProps{
+  id: string | number;
+}
+
+
 export interface CustomButtonProps {
   title: string;
   backgroundStyles: string;

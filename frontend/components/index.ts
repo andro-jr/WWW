@@ -14,6 +14,10 @@ import Newsletter from "./Newsletter/Newsletter";
 import Footer from "./Footer/Footer";
 import Package from "./Packages/Package";
 import Rating from "./Shared/Rating";
+import Featured from "./Packages/Featured";
+import NonFeatured from "./Packages/NonFeatured";
+import PackageDetail from "./PackageDetail/PackageDetail";
+import Faq from "./Faq";
 
 export {
   Navbar,
@@ -31,5 +35,10 @@ export {
   Newsletter,
   Footer,
   Package,
-  Rating
+  Rating,
+  Featured,
+  NonFeatured,
+  PackageDetail,
+  Faq
+  
 };
