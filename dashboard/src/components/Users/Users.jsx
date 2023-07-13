@@ -32,7 +32,7 @@ const Users = () => {
 
   return (
     <ContentsBox>
-      <DashHead>Users</DashHead>
+      <DashHead>Users({Users.length})</DashHead>
       <div className='table-wrap'>
         <table className='table'>
           <thead>
