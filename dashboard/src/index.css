@@ -47,6 +47,7 @@
 .table tbody td {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 10px;
+  max-width: 200px;
 }
 input[disabled] {
   background: rgba(0, 0, 0, 0.15);
@@ -144,4 +145,15 @@ input[disabled] {
   opacity: 1;
   -webkit-transform: scale(1);
   transform: scale(1);
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
 }
