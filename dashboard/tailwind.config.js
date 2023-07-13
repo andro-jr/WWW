@@ -24,6 +24,7 @@ module.exports = {
       white: {
         DEFAULT: '#fff',
         subtle: '#E7E7E7',
+        v_light: 'rgba(0,0,0,0.05)',
         light: 'rgba(255,255,255,0.5)',
       },
       blue: {

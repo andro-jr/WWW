@@ -1,8 +1,13 @@
 import React from 'react';
 
 const FormInput = ({ placeholder, type, label, ...rest }) => {
+  let additonalClass = 'w-1/3';
+  if (type === 'number') {
+    additonalClass = 'w-32';
+  }
+
   return (
-    <div className='flex flex-col-reverse w-1/3'>
+    <div className={`flex flex-col-reverse ${additonalClass}`}>
       <input
         type={type || 'text'}
         placeholder={placeholder}

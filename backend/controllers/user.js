@@ -51,6 +51,7 @@ const signUp = async (req, res) => {
 
   res.json({
     user: {
+      id: createdUser.id,
       name: createdUser.name,
       email: createdUser.email,
     },

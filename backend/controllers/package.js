@@ -13,15 +13,31 @@ const createPackage = async (req, res) => {
     days,
     costPerDay,
     recommended,
-    img,
     bestSeason,
     maxElevation,
     accomodation,
     includeInFeatured,
-    price
+    price,
   } = req.body;
 
-  const featuredImg = `http://localhost:8000/media/${req.file.filename}`;
+  let includeInFeaturedBool = false;
+  let recommendedBool = false;
+
+  if (includeInFeatured === 'on') {
+    includeInFeaturedBool = true;
+  }
+  if (recommended === 'on') {
+    recommendedBool = true;
+  }
+
+  console.log(recommendedBool, includeInFeaturedBool);
+
+  let featuredImg;
+  if (req.file?.filename) {
+    featuredImg = `http://localhost:8000/media/${req.file.filename}`;
+  }
+
+  console.log(req.body);
 
   const packageExists = await packages.findOne({ where: { title } });
   if (packageExists) return sendError(res, 'Package with same name Exists');
@@ -32,18 +48,16 @@ const createPackage = async (req, res) => {
     description,
     days,
     costPerDay,
-    recommended,
+    recommended: recommendedBool,
     featuredImg,
     bestSeason,
     maxElevation,
     accomodation,
-    includeInFeatured,
-    price
+    includeInFeatured: includeInFeaturedBool,
+    price,
   });
 
-  res.json({
-    message: 'Package Created Successfulyy',
-  });
+  res.redirect('http://localhost:3000/packages');
 };
 
 // @desc Update Package
@@ -51,6 +65,7 @@ const createPackage = async (req, res) => {
 // @access PRIVATE
 const updatePackage = async (req, res) => {
   const { id } = req.params;
+
   const {
     title,
     titleDesc,
@@ -58,7 +73,6 @@ const updatePackage = async (req, res) => {
     days,
     costPerDay,
     recommended,
-    img,
     bestSeason,
     maxElevation,
     accomodation,
@@ -66,7 +80,22 @@ const updatePackage = async (req, res) => {
     price,
   } = req.body;
 
-  console.log(id, title, titleDesc, bestSeason);
+  let featuredImg;
+  if (req.file?.filename) {
+    featuredImg = `http://localhost:8000/media/${req.file.filename}`;
+  }
+
+  let includeInFeaturedBool = false;
+  let recommendedBool = false;
+
+  if (includeInFeatured === 'true') {
+    includeInFeaturedBool = true;
+  }
+  if (recommended === 'true') {
+    recommendedBool = true;
+  }
+
+  console.log(req.body);
 
   const package = await packages.findByPk(id);
   if (!package) return sendError(res, 'Package not Found', 404);
@@ -76,17 +105,19 @@ const updatePackage = async (req, res) => {
   package.description = description || package.description;
   package.days = days || package.days;
   package.costPerDay = costPerDay || package.costPerDay;
-  package.recommended = recommended || package.recommended;
+  package.recommended = recommendedBool;
   package.bestSeason = bestSeason || package.bestSeason;
   package.maxElevation = maxElevation || package.maxElevation;
   package.accomodation = accomodation || package.accomodation;
-  package.includeInFeatured = includeInFeatured || package.includeInFeatured;
+  package.includeInFeatured = includeInFeaturedBool;
+  package.price = price || package.price;
+  package.featuredImg = featuredImg || package.featuredImg;
 
   const saved = await package.save();
 
   if (!saved) return sendError(res, 'Failed to update');
 
-  res.send({ message: 'Update Successful', package });
+  res.redirect('http://localhost:3000/packages');
 };
 
 // @desc Delete Package
@@ -117,9 +148,20 @@ const getAllPackages = async (req, res) => {
   res.json(allPackages);
 };
 
+const getSinglePackage = async (req, res) => {
+  const { id } = req.params;
+
+  const package = await packages.findByPk(id);
+
+  if (!package) return sendError(res, 'Failed to get package');
+
+  res.json(package);
+};
+
 module.exports = {
   createPackage,
   updatePackage,
   deletePackage,
   getAllPackages,
+  getSinglePackage,
 };
