@@ -10,6 +10,7 @@ import AddUser from './Users/AddUser';
 import AddPackage from './packages/AddPackage';
 import EditPackage from './packages/EditPackage';
 import PackageDetails from './packages/PackageDetails';
+import Bookings from './bookings/Bookings';
 
 function Layout() {
   return (
@@ -25,6 +26,7 @@ function Layout() {
           <Route path='/packages' exact element={<Packages />} />
           <Route path='/add-package' exact element={<AddPackage />} />
           <Route path='/edit-package/:id' exact element={<EditPackage />} />
+          <Route path='/bookings' exact element={<Bookings />} />
           <Route
             path='/package-details/:id'
             exact

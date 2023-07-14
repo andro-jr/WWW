@@ -336,6 +336,14 @@ const getSingleUser = async (req, res) => {
   return res.json(user);
 };
 
+const getAllUserCount = async (req, res) => {
+  const allUsers = await Users.findAll();
+
+  if (!allUsers) return sendError(res, 'Failed to get Users');
+
+  res.json(allUsers.length);
+};
+
 const adminUserAdd = async (req, res) => {
   const { name, email, password, role } = req.body;
 
@@ -376,4 +384,5 @@ module.exports = {
   getAllUsers,
   getSingleUser,
   adminUserAdd,
+  getAllUserCount,
 };

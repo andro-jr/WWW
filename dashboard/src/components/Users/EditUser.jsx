@@ -17,7 +17,7 @@ const validateUserInfo = (userInfo) => {
   if (!email.trim()) return { ok: false, error: 'Email is missing' };
   if (!isValidEmail.test(email))
     return { ok: false, error: 'Email is invalid' };
-  if (!password.trim()) return { ok: false, error: 'Password is missing' };
+  if (!password.trim()) return { ok: false, error: 'New Password is missing' };
   if (password.length < 8)
     return { ok: false, error: 'Password must be atlest 8 characters' };
 
@@ -115,6 +115,7 @@ const EditUser = () => {
               id='user'
               value='user'
               name='role'
+              checked={role === 'user'}
               onChange={(e) => {
                 setRole(e.target.value);
               }}
@@ -124,6 +125,7 @@ const EditUser = () => {
               id='admin'
               value='admin'
               name='role'
+              checked={role === 'admin'}
               onChange={(e) => {
                 setRole(e.target.value);
               }}

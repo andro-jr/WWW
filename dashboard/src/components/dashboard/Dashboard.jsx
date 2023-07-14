@@ -6,125 +6,171 @@ import ContentsBox from '../ContentsBox';
 import DashHead from '../utils/DashHead';
 import Table from './Table';
 import Users from '../Users/Users';
+import {
+  approveBookingAPI,
+  getAllBookingCount,
+  getPendingBookings,
+  getTotalSales,
+} from '../../api/bookings';
+import StatusBadge from '../utils/StatusBadge';
+import ApproveButton from '../bookings/ApproveButton';
+import { getAllUserCount } from '../../api/users';
+import { getAllPackagesCount } from '../../api/packages';
+
+const convertDate = (D) => {
+  const day = new Date(D);
+  const m = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  const str_op =
+    day.getDate() + ' ' + m[day.getMonth()] + ' ' + day.getFullYear();
+  return str_op;
+};
 
 const Dashboard = () => {
-  const userCount = Users.length;
+  const [pendingBookings, setPendingBookings] = useState('');
+  const [bookingStatus, setBookingStatus] = useState('');
+  const [userCount, setUserCount] = useState('');
+  const [packageCount, setPackageCount] = useState('');
+  const [bookingCount, setBookingCount] = useState('');
+  const [totalSales, setTotalSales] = useState('');
 
+  const approveBooking = async (id) => {
+    const res = await approveBookingAPI(id);
+    if (res.status === 200) {
+      setBookingStatus(true);
+    }
+  };
 
+  const fetchPendingBookings = async () => {
+    const res = await getPendingBookings();
+    setPendingBookings(res);
+    setBookingStatus(res.approved);
+  };
 
-  const bookingData = [
-    {
-      userName: 'Prabin Panta',
-      travelDestination: 'Paris',
-      startDate: '2023-07-15',
-      paymentStatus: 'Pending',
-    },
-    {
-      userName: 'Prabin Panta',
-      travelDestination: 'Paris',
-      startDate: '2023-07-15',
-      paymentStatus: 'Pending',
-    },
-    {
-      userName: 'Prabin Panta',
-      travelDestination: 'Paris',
-      startDate: '2023-07-15',
-      paymentStatus: 'Pending',
-    },
-    {
-      userName: 'Prabin Panta',
-      travelDestination: 'Paris',
-      startDate: '2023-07-15',
-      paymentStatus: 'Pending',
-    },
-    {
-      userName: 'Praghbin Panta',
-      travelDestination: 'Paris',
-      startDate: '2023-07-15',
-      paymentStatus: 'Pending',
-    },
-    {
-      userName: 'cbin Panta',
-      travelDestination: 'Paris',
-      startDate: '2023-07-15',
-      paymentStatus: 'Pending',
-    },
-    {
-      userName: 'abin Panta',
-      travelDestination: 'Paris',
-      startDate: '2023-07-15',
-      paymentStatus: 'Pending',
-    },
-    {
-      userName: 'Pra Panta',
-      travelDestination: 'Paris',
-      startDate: '2023-07-15',
-      paymentStatus: 'Pending',
-    },
-    {
-      userName: 'Pbin Panta',
-      travelDestination: 'Paris',
-      startDate: '2023-07-15',
-      paymentStatus: 'Pending',
-    },
-    {
-      userName: 'Pran Panta',
-      travelDestination: 'Paris',
-      startDate: '2023-07-15',
-      paymentStatus: 'Pending',
-    },
+  const fetchAllUserCount = async () => {
+    const res = await getAllUserCount();
+    setUserCount(res);
+  };
+  const fetchAllPackageCount = async () => {
+    const res = await getAllPackagesCount();
+    setPackageCount(res);
+  };
+  const fetchAllBookingCount = async () => {
+    const res = await getAllBookingCount();
+    setBookingCount(res);
+  };
+  const fetchTotalSales = async () => {
+    const res = await getTotalSales();
+    setTotalSales(res);
+  };
 
-  ];
-
-
-  const renderBookingRow = (booking, index) => (
-    <tr key={index} className="bg-white">
-      <td className="py-2">{booking.userName}</td>
-      <td className="py-2">{booking.travelDestination}</td>
-      <td className="py-2">{booking.startDate}</td>
-      <td className="py-2">{booking.paymentStatus}</td>
-    </tr>
-  );
+  useEffect(() => {
+    fetchPendingBookings();
+    fetchAllUserCount();
+    fetchAllPackageCount();
+    fetchAllBookingCount();
+    fetchTotalSales();
+  }, [bookingStatus]);
 
   return (
     <>
       <ContentsBox>
         <DashHead>Dashboard</DashHead>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="bg-white p-2 shadow-md rounded-md">
-            <CustomLink to="/users">
-              <Widget type="user" count={userCount} />
-            </CustomLink>
-          </div>
-          <div className="bg-white p-2 shadow-md rounded-md">
-            <Link to="/packages">
-              <Widget type="order" count={20} />
-            </Link>
-          </div>
-          <div className="bg-white p-2 shadow-md rounded-md">
-            <Link to="/totalsales">
-              <Widget type="earning" count={5000} />
-            </Link>
-          </div>
-          <div className="bg-white p-2 shadow-md rounded-md">
-            <Link to="/bookings">
-              <Widget type="balance" count={50} />
-            </Link>
-          </div>
+        <div className='flex gap-5 mb-8'>
+          <Widget
+            title='Sales'
+            value={totalSales}
+            name='sales'
+            to='/bookings'
+          ></Widget>
+          <Widget
+            title='Total Packages'
+            value={packageCount}
+            name='packages'
+            to='/packages'
+          ></Widget>
+          <Widget
+            title='Total Users'
+            value={userCount}
+            name='users'
+            to='/users'
+          ></Widget>
+          <Widget
+            title='Total Bookings'
+            value={bookingCount}
+            name='bookings'
+            to='/bookings'
+          ></Widget>
         </div>
-      </ContentsBox>
-
-      <ContentsBox>
-        <DashHead>Booking Details</DashHead>
-        <div>
-          <Table
-            headData={['User Name', 'Travel Destination', 'Start Date', 'Payment Status']}
-            bodyData={bookingData}
-            renderHead={(item, index) => <th key={index}>{item}</th>}
-            renderBody={renderBookingRow}
-            limit={5}
-          />
+        <h4 className='text-bold text-black-80 mb-2 text-lg'>
+          Pending Bookings
+        </h4>
+        <div className='table-wrap'>
+          <table className='table'>
+            <thead>
+              <th>Id</th>
+              <th>User Email</th>
+              <th>User Id</th>
+              <th>Package Id</th>
+              <th>Package Name</th>
+              <th>Total</th>
+              <th>Payment Intent</th>
+              <th>Departure Date</th>
+              <th>Status</th>
+            </thead>
+            <tbody>
+              {pendingBookings.length > 0 ? (
+                pendingBookings.map((booking) => {
+                  return (
+                    <tr key={booking.id}>
+                      <td>{booking.id}</td>
+                      <td>{booking.useremail}</td>
+                      <td>{booking.userId}</td>
+                      <td>{booking.packageId}</td>
+                      <td>{booking.packagename}</td>
+                      <td>{`${booking.total} $`}</td>
+                      <td>{booking.payment_intent}</td>
+                      <td>{convertDate(booking.departureDate)}</td>
+                      <td>
+                        {booking.approved ? (
+                          <StatusBadge status='green'>Approved</StatusBadge>
+                        ) : (
+                          <ApproveButton
+                            onClick={() => {
+                              approveBooking(booking.id);
+                            }}
+                          >
+                            Approve
+                          </ApproveButton>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={9}>
+                    <div className='m-auto text-center p-5 text-black-60'>
+                      There are no bookings to approve
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </ContentsBox>
     </>

@@ -13,6 +13,19 @@ export const getAllUsers = async () => {
   }
 };
 
+export const getAllUserCount = async () => {
+  try {
+    const { data } = await client.get('/user/user-count');
+    // console.log(data);
+    return data;
+  } catch (err) {
+    const { response } = err;
+    if (response?.data) return response.data;
+
+    return { error: err.message || err };
+  }
+};
+
 export const deleteUserApi = async (userId) => {
   try {
     const { data } = await client.delete(`/user/delete-user/${userId}`);

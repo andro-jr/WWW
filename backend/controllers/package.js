@@ -148,6 +148,14 @@ const getAllPackages = async (req, res) => {
   res.json(allPackages);
 };
 
+const getAllpackageCount = async (req, res) => {
+  const allPackages = await packages.findAll();
+
+  if (!allPackages) return sendError(res, 'Failed to get packages');
+
+  res.json(allPackages.length);
+};
+
 const getSinglePackage = async (req, res) => {
   const { id } = req.params;
 
@@ -164,4 +172,5 @@ module.exports = {
   deletePackage,
   getAllPackages,
   getSinglePackage,
+  getAllpackageCount,
 };

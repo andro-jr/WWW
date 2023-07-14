@@ -14,6 +14,7 @@ const {
   getAllUsers,
   getSingleUser,
   adminUserAdd,
+  getAllUserCount,
 } = require('../controllers/user');
 
 const { isValidPassResetToken } = require('../middlewares/user');
@@ -46,6 +47,7 @@ router.post(
 router.put('/update-user', updateUser);
 router.delete('/delete-user/:id', deleteUser);
 router.get('/all', getAllUsers);
+router.get('/user-count', getAllUserCount);
 router.get('/single-user/:id', getSingleUser);
 
 module.exports = router;

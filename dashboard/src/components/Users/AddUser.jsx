@@ -55,6 +55,8 @@ const EditUser = () => {
     navigate('/users');
   };
 
+  console.log(role);
+
   return (
     <ContentsBox>
       <DashHead>Add New User</DashHead>
@@ -82,7 +84,7 @@ const EditUser = () => {
         <FormInput
           type='password'
           placeholder='Enter Password'
-          label='New Password'
+          label='Password'
           value={userInfo.password}
           name='password'
           onChange={handleInputChange}
@@ -96,6 +98,7 @@ const EditUser = () => {
               id='user'
               name='role'
               value='user'
+              checked={role === 'user'}
               onChange={(e) => setRole(e.target.value)}
             ></RadioButton>
             <RadioButton
@@ -103,6 +106,7 @@ const EditUser = () => {
               id='admin'
               name='role'
               value='admin'
+              checked={role === 'admin'}
               onChange={(e) => setRole(e.target.value)}
             ></RadioButton>
           </div>
