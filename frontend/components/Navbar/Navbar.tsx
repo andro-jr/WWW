@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import CustomButton from "../Shared/CustomButton";
 import Link from "next/link";
 import { fetchPackages } from "@/utils";
@@ -23,6 +24,13 @@ const Navbar = () => {
     window.addEventListener("scroll", setFixed);
   }, []);
 
+  const router = useRouter();
+
+  const handleLogin = () => {
+    console.log("test");
+    router.push("/login");
+  };
+
   return (
     <div
       className={
@@ -32,7 +40,7 @@ const Navbar = () => {
       }
       id={fix ? "navbar fixed" : "navbar"}
       style={{
-        transition: 'all 0.5s ease-in-out'
+        transition: "all 0.5s ease-in-out",
       }}
     >
       <div className="left flex items-center gap-12">
@@ -70,6 +78,8 @@ const Navbar = () => {
               backgroundStyles="bg-blue-dark px-10 py-3 rounded-full"
               textStyles="text-white normal"
               classes="block lg:hidden"
+              btnType="button"
+              handleClick={handleLogin}
             />
           </ul>
         </div>
@@ -79,7 +89,7 @@ const Navbar = () => {
           title="Login"
           backgroundStyles="bg-blue px-10 py-3 rounded-md"
           textStyles="text-white normal"
-          handleClick={(fetchPackages)}
+          handleClick={handleLogin}
         />
       </div>
     </div>

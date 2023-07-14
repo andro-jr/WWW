@@ -2,20 +2,23 @@
 import { CustomButton } from "@/components";
 import FormInput from "@/components/Form/FormInput";
 import React, { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { validateOtp } from "@/utils";
 import Link from "next/link";
 import Image from "next/image";
 
 const page = ({ params }: any) => {
   const [inputData, setInputData] = useState();
-  const [valid, setValid] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [valid, setValid] = useState("");
   console.log(inputData);
 
   const handleChange = async (e: any) => {
     e.preventDefault();
     setInputData(e.target.value);
   };
+
+  const router = useRouter();
 
   const handleSubmit = async (e: any) => {
     const payload = {
@@ -24,9 +27,35 @@ const page = ({ params }: any) => {
     };
 
     try {
-      const response = await validateOtp(payload);
-      console.log(response);
-      // if(response.data.status === 200)
+      const response: any = await validateOtp(payload);
+      let statusCode;
+      let errorMsg;
+      if (response.data && response.data.user) {
+        statusCode = response.status;
+        console.log(statusCode);
+        // Access status code directly
+      // } else if (response.data && response.response.request.statusCode) {
+      //   statusCode = response.response.request.statusCode;
+      }
+       else {
+        // statusCode = 500; // Default status code
+        statusCode = response.response.request.status;
+        errorMsg = response.response.data.error;
+      }
+      // const statusCode = 200;
+      console.log(statusCode);
+      console.log(statusCode, errorMsg);
+
+      if (statusCode === 200) {
+        const token = response.data.user.token
+        setIsLoggedIn(true);
+        localStorage.setItem('isLoggedIn', isLoggedIn.toString());
+        localStorage.setItem('token', token);
+        router.push("/");
+      } else {
+        const errorMessage = errorMsg;
+        setValid(errorMessage);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -53,38 +82,31 @@ const page = ({ params }: any) => {
           />
         </div>
         <div className="desc__text flex flex-col items-center mt-4">
-          {/* <h2 className="font-bold text-lg mb-1 text-center">
-            Login
-          </h2> */}
-          {/* <span className="text-sm text-black-gray mb-2 text-center ">
+          <h2 className="font-bold text-lg mb-1 text-center">
+            Please enter your OTP to verify your email
+          </h2>
+          <span className="text-sm text-black-gray mb-2 text-center ">
             A one time password has been send to your email
-          </span> */}
+          </span>
         </div>
+        {valid && (
+          <div className="text-red text-sm font-bold flex items-center justify-center my-2">
+            {valid}
+          </div>
+        )}
         <FormInput
           name="otp"
           label="otp"
-          placeholder="enter email"
+          placeholder="enter your otp"
           type="text"
           value={inputData}
           onChange={handleChange}
           style="max-w-[700px]"
         />
-        <FormInput
-          name="otp"
-          label="otp"
-          placeholder="enter password"
-          type="text"
-          value={inputData}
-          onChange={handleChange}
-          style="max-w-[700px]"
-        />
-
         <span className="mb-4 flex justify-center gap-1">
-          <Link href="/signup" className="text-black-gray text-sm font-bold no-underline hover:underline">
-            Don't have an account ?
-          </Link>
-          <Link href="/forgotpassword" className="text-black-gray text-sm font-medium no-underline hover:underline">
-            Forgot Password?
+          Didn't get an email?{" "}
+          <Link href="" className="text-blue font-bold">
+            Resend OTP
           </Link>
         </span>
         <CustomButton
