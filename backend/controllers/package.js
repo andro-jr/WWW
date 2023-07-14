@@ -57,7 +57,7 @@ const createPackage = async (req, res) => {
     price,
   });
 
-  res.redirect('http://localhost:3000/packages');
+  res.redirect('http://localhost:3001/packages');
 };
 
 // @desc Update Package
@@ -117,7 +117,7 @@ const updatePackage = async (req, res) => {
 
   if (!saved) return sendError(res, 'Failed to update');
 
-  res.redirect('http://localhost:3000/packages');
+  res.redirect('http://localhost:3001/packages');
 };
 
 // @desc Delete Package

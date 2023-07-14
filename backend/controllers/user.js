@@ -75,6 +75,8 @@ const signIn = async (req, res) => {
 
   const { id, name } = user;
 
+  if (user.role === 'admin') res.redirect('http://localhost:3001');
+
   res.json({ user: { id, name, email, token: jwtToken } });
 };
 
