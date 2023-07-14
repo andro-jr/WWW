@@ -36,6 +36,11 @@ const Navbar = () => {
     // console.log(isLoggedIn);
     // console.log(token);
 
+    const handleLogout = () => {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("token");
+    };
+
     if (isLoggedIn && token) {
       setProfile(true);
       id = Cookies.get("id");
@@ -100,9 +105,12 @@ const Navbar = () => {
               </li>
             </Link>
             {profile ? (
-               <li className="links  text-black hover:text-black-60 transition-all duration-300">
-               Log out
-             </li>
+              <li
+                className="links  text-black hover:text-black-60 transition-all duration-300 cursor-pointer"
+                onClick={handleLogout}
+              >
+                Log out
+              </li>
             ) : (
               <div>
                 <CustomButton

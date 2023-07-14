@@ -9,7 +9,7 @@ import Image from "next/image";
 import CustomButton from "../Shared/CustomButton";
 import { fetchPackages } from "@/utils";
 
-const TripCollection = () => {
+const  TripCollection = () => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
   let slider1 = useRef(null);
