@@ -252,7 +252,7 @@ const PackageDetail = ({ id }: any) => {
                 Cost Per Day{" "}
               </p>
               <span className="mb-4">
-                <sup className="font-bold text-sm">Rs</sup>{" "}
+                <sup className="font-bold text-sm">$</sup>{" "}
                 <strong className="font-bold text-2xl">
                   {(allPackages.price / allPackages.days).toString()}
                 </strong>
