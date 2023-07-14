@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
 const Table = ({ headData, bodyData, renderHead, renderBody, limit }) => {
-  const initDataShow = limit && bodyData ? bodyData.slice(0, Number(limit)) : bodyData;
+  const initDataShow =
+    limit && bodyData ? bodyData.slice(0, Number(limit)) : bodyData;
   const [dataShow, setDataShow] = useState(initDataShow);
   const [currPage, setCurrPage] = useState(0);
 
@@ -23,12 +24,12 @@ const Table = ({ headData, bodyData, renderHead, renderBody, limit }) => {
   };
 
   return (
-    <div className="overflow-hidden rounded-lg">
-      <div className="table-wrapper overflow-x-auto">
-        <table className="min-w-full bg-white shadow-md">
+    <div className='overflow-hidden rounded-lg'>
+      <div className='table-wrapper overflow-x-auto'>
+        <table className='table'>
           {headData && renderHead && (
             <thead>
-              <tr className="bg-gray-200">
+              <tr className='bg-gray-200'>
                 {headData.map((item, index) => renderHead(item, index))}
               </tr>
             </thead>
@@ -41,16 +42,17 @@ const Table = ({ headData, bodyData, renderHead, renderBody, limit }) => {
         </table>
       </div>
       {pages > 1 && (
-        <div className="flex justify-end mt-4">
-          <nav className="inline-flex rounded-md shadow">
-            <div className="flex">
+        <div className='flex justify-end mt-4'>
+          <nav className='inline-flex rounded-md shadow'>
+            <div className='flex'>
               {range.map((item, index) => (
                 <button
                   key={index}
-                  className={`px-3 py-2 rounded-md ${currPage === index
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
-                    }`}
+                  className={`px-3 py-2 rounded-md ${
+                    currPage === index
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+                  }`}
                   onClick={() => selectPage(index)}
                 >
                   {item + 1}

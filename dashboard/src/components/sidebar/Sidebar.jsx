@@ -22,7 +22,7 @@ const Sidebar = () => {
           <SideBarItem name='Packages' />
         </CustomLink>
 
-        <CustomLink to='/booking' name='Bookings'>
+        <CustomLink to='/bookings' name='Bookings'>
           <SideBarItem name='Bookings' />
         </CustomLink>
       </nav>

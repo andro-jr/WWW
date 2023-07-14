@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import ContentsBox from '../ContentsBox';
@@ -9,6 +9,7 @@ import EditButton from '../utils/EditButton';
 import DeleteButton from '../utils/DeleteButton';
 import { Link, useNavigate } from 'react-router-dom';
 import AddButton from '../utils/AddButton';
+import { DataContext } from '../../context/DataProvider';
 
 const Users = () => {
   const [Users, setUsers] = useState([]);
@@ -32,7 +33,7 @@ const Users = () => {
 
   return (
     <ContentsBox>
-      <DashHead>Users({Users.length})</DashHead>
+      <DashHead>All Users</DashHead>
       <div className='table-wrap'>
         <table className='table'>
           <thead>

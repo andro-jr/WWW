@@ -12,7 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AddButton from '../utils/AddButton';
 import { deleteSinglePackage, fetchAllPackages } from '../../api/packages';
 
-const Users = () => {
+const Packages = () => {
   const [packages, setPackages] = useState([]);
 
   const [renderPackage, setRenderPackage] = useState(false);
@@ -111,4 +111,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Packages;

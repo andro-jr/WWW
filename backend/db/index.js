@@ -31,6 +31,7 @@ db.passwordResetToken = require('../models/passwordResetToken')(
 );
 
 db.packages = require('../models/packages.js')(sequelize, DataTypes);
+db.booking = require('../models/booking.js')(sequelize, DataTypes);
 
 db.sequelize
   .sync()

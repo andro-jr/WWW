@@ -8,16 +8,21 @@ const app = express();
 require('dotenv').config();
 const userRouter = require('./routes/user');
 const packageRouter = require('./routes/package');
+const bookingRouter = require('./routes/booking');
+const stripeRouter = require('./routes/stripe');
 const { uploadImage } = require('./middlewares/imageUpload');
 const multer = require('multer');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
+
+app.use('/api/stripe', stripeRouter);
 
 // Api bata ako data lai json format ma lana ko lagi middeware
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
 
+app.use('/api/stripe', bookingRouter);
 app.use('/media', express.static('media'));
 
 app.use('/api/user', userRouter);
@@ -39,4 +44,3 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server is running in PORT: ${PORT}`);
 });
-

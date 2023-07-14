@@ -57,7 +57,7 @@ const createPackage = async (req, res) => {
     price,
   });
 
-  res.redirect('http://localhost:3000/packages');
+  res.redirect('http://localhost:3001/packages');
 };
 
 // @desc Update Package
@@ -117,7 +117,7 @@ const updatePackage = async (req, res) => {
 
   if (!saved) return sendError(res, 'Failed to update');
 
-  res.redirect('http://localhost:3000/packages');
+  res.redirect('http://localhost:3001/packages');
 };
 
 // @desc Delete Package
@@ -148,6 +148,14 @@ const getAllPackages = async (req, res) => {
   res.json(allPackages);
 };
 
+const getAllpackageCount = async (req, res) => {
+  const allPackages = await packages.findAll();
+
+  if (!allPackages) return sendError(res, 'Failed to get packages');
+
+  res.json(allPackages.length);
+};
+
 const getSinglePackage = async (req, res) => {
   const { id } = req.params;
 
@@ -164,4 +172,5 @@ module.exports = {
   deletePackage,
   getAllPackages,
   getSinglePackage,
+  getAllpackageCount,
 };
