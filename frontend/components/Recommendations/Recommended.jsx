@@ -10,7 +10,7 @@ import { fetchPackages } from "@/utils";
 
 const Recommended = () => {
   const [allPackages, setAllPackages] = useState([]);
-  console.log(allPackages);
+  // console.log(allPackages);
 
   const getAllPackages = async () => {
     try {
@@ -31,7 +31,7 @@ const Recommended = () => {
   );
 
 
-  console.log(recommended);
+  // console.log(recommended);
 
   return (
     <div className="mt-24 px-5 lg:px-20">

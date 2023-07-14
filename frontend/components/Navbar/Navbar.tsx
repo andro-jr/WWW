@@ -2,11 +2,20 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import CustomButton from "../Shared/CustomButton";
+import { BsPersonLinesFill } from "react-icons/bs";
 import Link from "next/link";
 import { fetchPackages } from "@/utils";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const [fix, setFix] = useState(false);
+
+  const [profile, setProfile] = useState(false);
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    id: +"",
+  });
 
   const setFixed = () => {
     if (window.scrollY >= 800) {
@@ -16,14 +25,32 @@ const Navbar = () => {
     }
   };
 
-  // window.addEventListener("scroll", () => {
-  //   console.log(scrollY);
-  // });
-
+  let id;
+  let name;
+  let email;
   useEffect(() => {
     window.addEventListener("scroll", setFixed);
-  }, []);
 
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const token = localStorage.getItem("token");
+    // console.log(isLoggedIn);
+    // console.log(token);
+
+    if (isLoggedIn && token) {
+      setProfile(true);
+      id = Cookies.get("id");
+      name = Cookies.get("name");
+      email = Cookies.get("email");
+
+      setUser({
+        id: id,
+        name: name,
+        email: email,
+      });
+    }
+    // console.log(profile);
+  }, []);
+  console.log(user);
   const router = useRouter();
 
   const handleLogin = () => {
@@ -72,26 +99,41 @@ const Navbar = () => {
                 Contact
               </li>
             </Link>
-
-            <CustomButton
-              title="Login"
-              backgroundStyles="bg-blue-dark px-10 py-3 rounded-full"
-              textStyles="text-white normal"
-              classes="block lg:hidden"
-              btnType="button"
-              handleClick={handleLogin}
-            />
+            {profile ? (
+               <li className="links  text-black hover:text-black-60 transition-all duration-300">
+               Log out
+             </li>
+            ) : (
+              <div>
+                <CustomButton
+                  title="Login"
+                  backgroundStyles="bg-blue-dark px-10 py-3 rounded-full"
+                  textStyles="text-white normal"
+                  classes="block lg:hidden"
+                  btnType="button"
+                  handleClick={handleLogin}
+                />
+              </div>
+            )}
           </ul>
         </div>
       </div>
-      <div className="nav__links flex gap-10 items-center justify-center">
-        <CustomButton
-          title="Login"
-          backgroundStyles="bg-blue px-10 py-3 rounded-md"
-          textStyles="text-white normal"
-          handleClick={handleLogin}
-        />
-      </div>
+
+      {profile ? (
+        <div className="flex items-center justify-center gap-3 cursor-pointer">
+          <p className="font-md">{user.name}</p>
+          <BsPersonLinesFill className="text-2xl" />
+        </div>
+      ) : (
+        <div className="sm:hidden lg:block nav__links flex gap-10 items-center justify-center">
+          <CustomButton
+            title="Login"
+            backgroundStyles="bg-blue px-10 py-3 rounded-md"
+            textStyles="text-white normal"
+            handleClick={handleLogin}
+          />
+        </div>
+      )}
     </div>
   );
 };

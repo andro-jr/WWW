@@ -45,10 +45,14 @@ const page = ({ params }: any) => {
       // const statusCode = 200;
       console.log(statusCode);
       console.log(statusCode, errorMsg);
+      if (statusCode === 200) {
+        setIsLoggedIn(true);
+      }
 
       if (statusCode === 200) {
         const token = response.data.user.token
-        setIsLoggedIn(true);
+        // setIsLoggedIn(true);
+        console.log(isLoggedIn);
         localStorage.setItem('isLoggedIn', isLoggedIn.toString());
         localStorage.setItem('token', token);
         router.push("/");

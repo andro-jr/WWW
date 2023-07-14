@@ -1,60 +1,73 @@
 "use client";
+import React, { useState, useEffect } from "react";
+
 import { CustomButton } from "@/components";
 import FormInput from "@/components/Form/FormInput";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { forgotPassword } from "@/utils";
+
+import { verifyPassResetToken, resetPassword } from "@/utils";
 import Link from "next/link";
 import Image from "next/image";
 import Cookies from "js-cookie";
+import {
+  useRouter,
+  usePathname,
+  useSearchParams,
+  useParams,
+} from "next/navigation";
 
-const page = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [inputData, setInputData] = useState({ email: "" });
-
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+const page = ({ params }: any) => {
+  // const { token, id } = useParams();
+  const [tokenValue, setTokenValue] = useState("");
+  const [userId, setUserId] = useState("");
   const [submit, setSubmit] = useState(false);
-  const router = useRouter();
 
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const [inputData, setInputData] = useState("");
   console.log(inputData);
+
   const handleChange = (e: any) => {
     e.preventDefault();
-    const { value, name } = e.target;
-    console.log(name);
-    setInputData({ ...inputData, [name]: value });
+    setInputData(e.target.value);
   };
 
+  const token = searchParams.get("token");
+  const id = searchParams.get("id");
+
+  useEffect(() => {
+    setTokenValue(token);
+    setUserId(id);
+  }, []);
+
   const handleSubmit = async (e: any) => {
+
+    // const token = localStorage.getItem('token')
     const payload = {
-      email: inputData.email,
+      token: tokenValue,
+      userId: userId,
     };
     console.log(payload);
 
     try {
-      const response: any = await forgotPassword(payload);
-      console.log("response", response);
-      // console.log(response.status);
+      const response: any = await verifyPassResetToken(payload);
+      console.log("verified", response);
 
-      if (response.status === 200) {
-        const token = localStorage.getItem("token");
-        const isLoggedIn = localStorage.getItem("isLoggedIn");
-        // const tokenValue = response.data.token
-        console.log("test");
-        setSubmit(true);
-        setMessage(response.data.message);
-        if (token) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("isLoggedIn");
-          // localStorage.setItem("token", tokenValue);
-        } else {
-          // localStorage.setItem("token", tokenValue);
+      console.log(response.data.valid);
+      if (response.data.valid === true) {
+        const payload1 = {
+          newPassword: inputData,
+          userId: userId,
+        };
+        try {
+          const response: any = await resetPassword(payload1);
+          console.log("password Reset", response);
+        } catch (error) {
+          console.log(error);
         }
-      } else {
-        setError(response.response.statusText);
       }
-
-      // router.push("/");
+      router.push('/');
     } catch (error) {
       console.log(error);
     }
@@ -82,22 +95,20 @@ const page = () => {
         </div>
         {submit === true ? (
           <div className="flex items-center justify-center my-6">
-            <p className="text-md font-bold text-center text-blue">{message}</p>
+            <p className="text-md font-bold text-center text-blue"></p>
           </div>
         ) : (
           <div className="flex flex-col">
             <div className="desc__text flex flex-col items-center mt-4">
-              {error && (
-                <div className="text-red text-sm font-bold mb-4">{error}</div>
-              )}
+              
               <span className="text-sm text-black-gray mb-2 text-center font-bold">
-                Enter your email address
+                Enter new password
               </span>
             </div>
             <FormInput
-              name="email"
-              label="email"
-              placeholder="enter email"
+              name="password"
+              label="password"
+              placeholder="enter new password"
               type="text"
               value={inputData}
               onChange={handleChange}
@@ -105,19 +116,19 @@ const page = () => {
             />
 
             {/* <span className="mb-4 flex justify-center gap-1">
-          <Link
-            href="/signup"
-            className="text-black-gray text-sm font-bold no-underline hover:underline"
-          >
-            Don't have an account ?
-          </Link>
-          <Link
-            href="/forgotpassword"
-            className="text-black-gray text-sm font-medium no-underline hover:underline"
-          >
-            Forgot Password?
-          </Link>
-        </span> */}
+      <Link
+        href="/signup"
+        className="text-black-gray text-sm font-bold no-underline hover:underline"
+      >
+        Don't have an account ?
+      </Link>
+      <Link
+        href="/forgotpassword"
+        className="text-black-gray text-sm font-medium no-underline hover:underline"
+      >
+        Forgot Password?
+      </Link>
+    </span> */}
             <CustomButton
               title="Login"
               backgroundStyles="bg-blue px-20 py-4 rounded-md"

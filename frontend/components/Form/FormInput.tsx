@@ -2,6 +2,10 @@ import React from "react";
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { FaMountainSun } from "react-icons/fa6";
+import { FaMoneyBillAlt } from "react-icons/fa";
+import { BsCalendarDateFill } from "react-icons/bs";
+
 import { FormInputProps } from "@/types";
 import { relative } from "path";
 
@@ -37,7 +41,11 @@ const FormInput = ({
           <RiLockPasswordFill />
         ) : name === "otp" ? (
           <RiLockPasswordFill />
-        ) : (
+        ) : name === "packageName" ? (
+          <FaMountainSun />
+        ) : name === "price" ? (
+          <FaMoneyBillAlt />
+        ) : name === "departureDate" ? <BsCalendarDateFill /> : (
           "label"
         )}
       </label>

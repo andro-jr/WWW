@@ -16,7 +16,7 @@ const Package = () => {
       const pack = await fetchPackages();
       console.log(pack);
       setAllPackages(pack);
-      setBackgroundImage(pack[0].featuredImg);
+      setBackgroundImage(pack[2].featuredImg);
     } catch (error) {
       console.log(error);
     }
@@ -36,7 +36,9 @@ const Package = () => {
           <div
             className="w-full min-h-[50vh] px-5 md:px-20  flex items-center justify-center package__overlay"
             style={{
-              backgroundImage: `url(${backgroundImage})`,
+              // backgroundImage: `url(${backgroundImage})`,
+              // backgroundImage: `url('/1.jpg)`,
+              backgroundImage: "url('/1.jpg')",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               backgroundSize: "cover",

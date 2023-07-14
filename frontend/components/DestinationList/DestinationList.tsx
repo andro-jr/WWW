@@ -13,7 +13,7 @@ const DestinationList = () => {
   const getAllPackages = async () => {
     try {
       const pack = await fetchPackages();
-      console.log(pack);
+      // console.log(pack);
       setAllPackages(pack);
     } catch (error) {
       console.log(error);

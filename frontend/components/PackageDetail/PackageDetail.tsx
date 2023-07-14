@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { fetchSinglePackage } from "@/utils";
 import { PackageParamsProps } from "@/types";
 import { FiClock } from "react-icons/fi";
@@ -11,6 +12,7 @@ import { MdDateRange } from "react-icons/md";
 import { RiFilePaper2Line } from "react-icons/ri";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { BsShieldCheck } from "react-icons/bs";
+import { LiaMountainSolid } from "react-icons/lia";
 import Faq from "../Faq";
 
 const PackageDetail = ({ id }: any) => {
@@ -67,6 +69,19 @@ const PackageDetail = ({ id }: any) => {
     getSinglePackageDetail();
   }, []);
 
+  const router = useRouter();
+
+  const handleClick = () => {
+    const loggedIn = localStorage.getItem('isLoggedIn');
+
+    if(!loggedIn) {
+        router.push('/login');
+    }
+    else{
+      router.push(`/packages/${id}/booking?packagename=${allPackages.title}&packageId=${allPackages.id}&price=${allPackages.price}`);
+    }
+  }
+
   return (
     <div>
       <div className="mt-10 mx-5 lg:mx-20 mb-20">
@@ -90,6 +105,13 @@ const PackageDetail = ({ id }: any) => {
                 </span>
                 {/* <span>{allPackages.days} Days</span> */}
                 <span className="font-bold text-md">{allPackages.title}</span>
+              </div>
+              <div className="location flex items-center gap-3 mt-2">
+                <span>
+                  <LiaMountainSolid className="font-bold text-xl" />
+                </span>
+                {/* <span>{allPackages.days} Days</span> */}
+                <span className="font-bold text-md">{allPackages.maxElevation || 4500} meters</span>
               </div>
             </div>
           </div>
@@ -239,6 +261,7 @@ const PackageDetail = ({ id }: any) => {
                 title="Book Now"
                 backgroundStyles="bg-blue py-4 rounded-md lg:rounded-full"
                 textStyles="text-white"
+                handleClick={handleClick}
               />
 
               <div className="departures mt-8 flex flex-col">
