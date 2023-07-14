@@ -50,21 +50,31 @@ const booking = ({ params }: any) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    const payload = {
-      userId: inputData.userId,
-      useremail: inputData.email,
-      packagename: inputData.packagename,
-      packageId: inputData.packageId,
-      price: inputData.price,
-      departureDate: inputData.departureDate,
-    };
-    console.log(payload);
+    if (!inputData.departureDate) {
+      alert("Please select Departure Date");
+    } else {
+      const payload = {
+        userId: inputData.userId,
+        useremail: inputData.email,
+        packagename: inputData.packagename,
+        packageId: inputData.packageId,
+        price: inputData.price,
+        departureDate: inputData.departureDate,
+      };
+      console.log(payload);
 
-    try {
-      const response = await payment(payload);
-      console.log(response)
-    } catch (error) {
+      try {
+        const response: any = await payment(payload);
+        console.log(response);
+
+        if (response.status === 200) {
+          const url = response.data.url;
+          console.log(url);
+          router.push(`${url}`);
+        }
+      } catch (error) {
         console.log(error);
+      }
     }
   };
 
