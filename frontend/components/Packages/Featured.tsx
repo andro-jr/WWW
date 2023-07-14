@@ -103,7 +103,7 @@ const Featured = () => {
                 <div className="pack__duration flex items-center justify-start gap-3 font-sm mt-4">
                   <FiClock className="text-blue" />
                   <p className="text-sm font-nunito font-bold text-black-60">
-                    {pack.days}
+                    {pack.days} Days {pack.days - 1}nights
                   </p>
                 </div>
 
@@ -114,7 +114,7 @@ const Featured = () => {
                         <IoPricetagsOutline className="text-blue " />
                       </strong>
                       <small className="font-bold font-nunito text-black-60">
-                        {pack.price}
+                        Rs. {Math.round(pack.price)}
                       </small>
                     </div>
                   ) : (

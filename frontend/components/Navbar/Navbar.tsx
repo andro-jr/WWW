@@ -36,10 +36,7 @@ const Navbar = () => {
     // console.log(isLoggedIn);
     // console.log(token);
 
-    const handleLogout = () => {
-      localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("token");
-    };
+    
 
     if (isLoggedIn && token) {
       setProfile(true);
@@ -61,6 +58,12 @@ const Navbar = () => {
   const handleLogin = () => {
     console.log("test");
     router.push("/login");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("token");
+    router.push('/');
   };
 
   return (
@@ -107,7 +110,7 @@ const Navbar = () => {
             {profile ? (
               <li
                 className="links  text-black hover:text-black-60 transition-all duration-300 cursor-pointer"
-                onClick={handleLogout}
+                onClick={() => handleLogout()}
               >
                 Log out
               </li>
