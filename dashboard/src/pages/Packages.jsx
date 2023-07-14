@@ -1,10 +1,8 @@
-import React from 'react'
-import Layout from '../components/Layout'
+import React from 'react';
+import Layout from '../components/Layout';
 
 const Packages = () => {
-  return (
-    <Layout>Package will be here </Layout>
-  )
-}
+  return <Layout>Package will be here </Layout>;
+};
 
-export default Packages
+export default Packages;
